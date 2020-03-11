@@ -1,5 +1,6 @@
 package com.example.complaintapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,7 +8,12 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,7 +32,28 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this,Login.class));
         }
         else{
-            startActivity(new Intent(MainActivity.this,Citizen_home.class));
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            databaseReference = FirebaseDatabase.getInstance().getReference("Citizen").child(uid);
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+                        startActivity(new Intent(MainActivity.this,Citizen_home.class));
+                        finish();
+                    }
+                    else{
+                        startActivity(new Intent(MainActivity.this,Corporation_home.class));
+                        finish();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
         }
     }
 

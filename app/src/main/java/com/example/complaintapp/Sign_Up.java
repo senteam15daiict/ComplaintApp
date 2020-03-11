@@ -1,8 +1,10 @@
 package com.example.complaintapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,14 +18,18 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class Sign_Up extends AppCompatActivity {
 
     EditText vEmail,vPassword,vPhone_Number,vUser_Name;
     Button vSign_Up;
-    TextView vLogin_Screen;
+    TextView vLogin_Screen,vRegister_Corporation;
     FirebaseAuth fauth;
     DatabaseReference databaseReference;
     int backButtonCount = 0;
@@ -39,6 +45,7 @@ public class Sign_Up extends AppCompatActivity {
         vUser_Name = (EditText) findViewById(R.id.Citizen_User_Name);
         vSign_Up = (Button) findViewById(R.id.Citizen_Sign_Up);
         vLogin_Screen = (TextView) findViewById(R.id.Login_Screen);
+        vRegister_Corporation = (TextView) findViewById(R.id.Register_Corporation);
         fauth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference("Citizen");
 
@@ -105,12 +112,12 @@ public class Sign_Up extends AppCompatActivity {
                                     phoneNumber
                             );
 
-                            FirebaseDatabase.getInstance().getReference("User_citizen")
+                            FirebaseDatabase.getInstance().getReference("Citizen")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(c1).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(Sign_Up.this,"User Created",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Sign_Up.this,"User created Succesfully",Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(getApplicationContext(),Login.class));
                                 }
                             });
@@ -130,6 +137,54 @@ public class Sign_Up extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(Sign_Up.this,Login.class));
                 finish();
+            }
+        });
+
+        vRegister_Corporation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText admin_key = new EditText(v.getContext());
+                final AlertDialog.Builder adminAuthenticationDialog = new AlertDialog.Builder(v.getContext());
+                adminAuthenticationDialog.setTitle("Admin Authentication");
+                adminAuthenticationDialog.setMessage("Enter your Admin key to add new Corporation");
+                adminAuthenticationDialog.setView(admin_key);
+
+                adminAuthenticationDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        databaseReference = FirebaseDatabase.getInstance().getReference("Admin_key");
+                        String key = admin_key.getText().toString();
+                        Toast.makeText(Sign_Up.this,key,Toast.LENGTH_SHORT).show();
+                        Query query = databaseReference.orderByChild("Key").equalTo(key);
+                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){
+                                    startActivity(new Intent(Sign_Up.this,Sign_Up_Corporation.class));
+                                    finish();
+                                }
+                                else{
+                                    Toast.makeText(Sign_Up.this,"PLease Enter Valid Key",Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                });
+
+                adminAuthenticationDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+                adminAuthenticationDialog.create().show();
             }
         });
     }

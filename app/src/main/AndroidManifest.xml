@@ -11,6 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Corporation_Profile"></activity>
+        <activity android:name=".Corporation_Notification" />
+        <activity android:name=".Corporation_home" />
+        <activity android:name=".Login_Corporation" />
+        <activity android:name=".Sign_Up_Corporation" />
         <activity android:name=".Sign_Up" />
         <activity android:name=".Login" />
         <activity android:name=".Profile" />

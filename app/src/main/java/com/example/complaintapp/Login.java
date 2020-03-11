@@ -29,7 +29,7 @@ public class Login extends AppCompatActivity {
 
     int backButtonCount = 0;
     EditText vEmail,vPassword;
-    TextView vForgot_Password,vCreate_Account;
+    TextView vForgot_Password,vCreate_Account,vTo_Open_Corporation_Login;
     String User_Id;
     Button vLogin;
     FirebaseAuth fauth;
@@ -43,6 +43,7 @@ public class Login extends AppCompatActivity {
         vPassword = (EditText) findViewById(R.id.Login_Citizen_Password);
         vForgot_Password = (TextView) findViewById(R.id.Forgot_Password);
         vCreate_Account = (TextView) findViewById(R.id.Create_Account);
+        vTo_Open_Corporation_Login = (TextView) findViewById(R.id.To_Open_Corporation_Login);
         vLogin = (Button) findViewById(R.id.Login_Button);
         fauth = FirebaseAuth.getInstance();
 
@@ -131,7 +132,6 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(Login.this,"Reset Link Sent to your mail",Toast.LENGTH_SHORT).show();
-
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -157,6 +157,14 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Login.this,Sign_Up.class));
+                finish();
+            }
+        });
+
+        vTo_Open_Corporation_Login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Login.this,Login_Corporation.class));
                 finish();
             }
         });

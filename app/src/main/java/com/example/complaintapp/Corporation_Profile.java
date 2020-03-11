@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.badge.BadgeUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,57 +23,46 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
-public class Profile extends AppCompatActivity {
+public class Corporation_Profile extends AppCompatActivity {
 
-    Button vDelete_Account,vLogout;
     int backButtonCount = 0;
-
+    Button vCorporation_Logout,vCorporation_Delete_Account;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_corporation__profile);
 
-        vDelete_Account = (Button) findViewById(R.id.Delete_Account);
-        vLogout = (Button) findViewById(R.id.Logout);
+        vCorporation_Delete_Account = (Button) findViewById(R.id.Corporation_Delete_Account);
+        vCorporation_Logout = (Button) findViewById(R.id.Corporation_Logout);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        bottomNavigationView.setSelectedItemId(R.id.Profile);
+        bottomNavigationView.setSelectedItemId(R.id.Corporation_Profile);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.Post_complaint:
-                        startActivity(new Intent(getApplicationContext(),Citizen_home.class));
+                switch(item.getItemId()){
+                    case R.id.Corporation_View_complaint:
+                        startActivity(new Intent(getApplicationContext(),Corporation_home.class));
                         overridePendingTransition(0,0);
                         return true;
 
-                    case R.id.History:
-                        startActivity(new Intent(getApplicationContext(),History.class));
+                    case R.id.Corporation_Notifications:
+                        startActivity(new Intent(getApplicationContext(),Corporation_Notification.class));
                         overridePendingTransition(0,0);
                         return true;
 
-                    case R.id.Near_by:
-                        startActivity(new Intent(getApplicationContext(),Near_by.class));
-                        overridePendingTransition(0,0);
-                        return true;
-
-                    case R.id.Notifications:
-                        startActivity(new Intent(getApplicationContext(),Notification.class));
-                        overridePendingTransition(0,0);
-                        return true;
-
-                    case R.id.Profile:
+                    case R.id.Corporation_Profile:
                         return true;
                 }
                 return false;
             }
         });
 
-        vDelete_Account.setOnClickListener(new View.OnClickListener() {
+        vCorporation_Delete_Account.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                final AlertDialog.Builder dialog = new AlertDialog.Builder(Profile.this);
+            public void onClick(View v) {
+                final AlertDialog.Builder dialog = new AlertDialog.Builder(Corporation_Profile.this);
                 dialog.setTitle("Are you sure?");
                 dialog.setMessage("Deleting this account will result in completely removing your account from the system and you wont be able to access the app.");
 
@@ -86,7 +76,7 @@ public class Profile extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(!task.isSuccessful()){
-                                    Toast.makeText(Profile.this,"1 -- " + Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
+                                    Toast.makeText(Corporation_Profile.this,"1 -- " + Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
@@ -94,17 +84,17 @@ public class Profile extends AppCompatActivity {
 
                         String uid = firebaseUser.getUid();
                         //Toast.makeText(citizen_home.this,key,Toast.LENGTH_LONG).show();
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Citizen").child(uid);
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Corporation").child(uid);
                         ref.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
-                                    Toast.makeText(Profile.this,"Account Deleted",Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(Profile.this,MainActivity.class);
+                                    Toast.makeText(Corporation_Profile.this,"Account Deleted",Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(Corporation_Profile.this,MainActivity.class);
                                     startActivity(intent);
                                 }
                                 else{
-                                    Toast.makeText(Profile.this, Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
+                                    Toast.makeText(Corporation_Profile.this, Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
@@ -125,7 +115,7 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-        vLogout.setOnClickListener(new View.OnClickListener() {
+        vCorporation_Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();

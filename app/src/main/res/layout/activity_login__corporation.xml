@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Sign_Up">
+    tools:context=".Login_Corporation">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,25 +13,7 @@
 
 
         <EditText
-            android:id="@+id/Citizen_User_Name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="24dp"
-            android:hint="User Name"
-            android:textSize="24sp" />
-
-        <EditText
-            android:id="@+id/Citizen_Phone_Number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="24dp"
-            android:hint="Phone Number"
-            android:textSize="24sp" />
-
-        <EditText
-            android:id="@+id/Citizen_Email"
+            android:id="@+id/Corporation_Login_Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -42,7 +24,7 @@
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/Citizen_Password"
+            android:id="@+id/Corporation_Login_Password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
@@ -50,37 +32,64 @@
             android:hint="Password"
             android:textSize="24sp" />
 
+        <EditText
+            android:id="@+id/Corporation_Login_Security_Key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="24dp"
+            android:hint="Security key"
+            android:textSize="24sp" />
+
         <Button
-            android:id="@+id/Citizen_Sign_Up"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="24dp"
             android:padding="5dp"
-            android:text="Sign Up"
-            android:textAllCaps="false"
-            android:textSize="24dp" />
+            android:text="login"
+            android:textSize="24dp"
+            android:id="@+id/Corporation_Login_Button"/>
 
-        <TextView
-            android:id="@+id/Login_Screen"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:gravity="center_horizontal"
-            android:text="Already Have an Account? Click here"
-            android:textColor="#000000"
-            android:textSize="15dp" />
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/Corporation_Create_Account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create Account"
+                android:textColor="#000000"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/Corporation_Forgot_Password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_toEndOf="@+id/Corporation_Create_Account"
+                android:text="Forgot Password?"
+                android:textColor="#000000"
+                android:textSize="15dp" />
+
+        </RelativeLayout>
 
         <TextView
-            android:id="@+id/Register_Corporation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:text="Login as Citizen"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
-            android:text="Register Coporation"
             android:textColor="#000000"
-            android:textSize="15dp" />
+            android:id="@+id/To_Open_Citizen_Login"/>
+
+
+
     </LinearLayout>
+
 
 </ScrollView>
