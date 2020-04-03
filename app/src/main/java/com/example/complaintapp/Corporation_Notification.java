@@ -2,6 +2,7 @@ package com.example.complaintapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class Corporation_Notification extends AppCompatActivity {
 
     int backButtonCount = 0;
+    Toolbar vCorporation_Notifications_Page_Bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,9 @@ public class Corporation_Notification extends AppCompatActivity {
         setContentView(R.layout.activity_corporation__notification);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        vCorporation_Notifications_Page_Bar = findViewById(R.id.Corporation_Notifications_Page_Bar);
+        setSupportActionBar(vCorporation_Notifications_Page_Bar);
+        getSupportActionBar().setTitle("Notifications");
 
         bottomNavigationView.setSelectedItemId(R.id.Corporation_Notifications);
 

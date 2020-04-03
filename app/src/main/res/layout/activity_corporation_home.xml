@@ -6,24 +6,44 @@
     android:layout_height="match_parent"
     tools:context=".Corporation_home">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Corporation Home"
-        android:textSize="40sp"
-        android:textStyle="bold" />
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/Corporation_Home_Page_Main_Bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/Corporation_Home_Page_bar"
+            layout="@layout/app_bar_layout" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/Corporation_Home_Page_Tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        </com.google.android.material.tabs.TabLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:layout_alignParentBottom="true"
         android:background="@color/yellow"
+        android:visibility="visible"
         app:itemBackground="@color/yellow"
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
-        app:menu="@menu/corporation_menu_navigation"
-        android:layout_alignParentBottom="true"/>
+        app:menu="@menu/corporation_menu_navigation" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Corporation_Home_View_Pager"
+        android:layout_above="@+id/bottom_navigation"
+        android:layout_below="@+id/Corporation_Home_Page_Main_Bar" >
+    </androidx.viewpager.widget.ViewPager>
 
 </RelativeLayout>

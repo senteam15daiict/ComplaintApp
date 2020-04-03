@@ -2,9 +2,11 @@ package com.example.complaintapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +36,7 @@ public class Sign_Up_Corporation extends AppCompatActivity {
     DatabaseReference databaseReference;
     FirebaseAuth fauth;
     int backButtonCount = 0;
+    Toolbar vCorporation_Sign_Up_Page_bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,9 @@ public class Sign_Up_Corporation extends AppCompatActivity {
         vCorporation_Register_As_Citizen = (TextView) findViewById(R.id.Corporation_Register_As_Citizen);
         databaseReference = FirebaseDatabase.getInstance().getReference();
         fauth = FirebaseAuth.getInstance();
+        vCorporation_Sign_Up_Page_bar = (Toolbar) findViewById(R.id.Corporation_Sign_Up_Page_bar);
+        setSupportActionBar(vCorporation_Sign_Up_Page_bar);
+        getSupportActionBar().setTitle("Corporation Sign Up");
 
         vCorporation_Login_Screen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +84,7 @@ public class Sign_Up_Corporation extends AppCompatActivity {
                 String email = vCorporation_Email.getText().toString();
                 String password = vCorporation_Password.getText().toString();
                 String security_key = vCorporation_Security_Key.getText().toString();
-                String country = vCorporation_Country.getText().toString();
+                final String country = vCorporation_Country.getText().toString();
                 String state = vCorporation_State.getText().toString();
                 String district = vCorporation_District.getText().toString();
 
@@ -87,6 +93,44 @@ public class Sign_Up_Corporation extends AppCompatActivity {
                         state,
                         district
                 );
+
+                if(TextUtils.isEmpty(user_name)){
+                    vCorporation_User_Name.setError("Please Enter User Name");
+                    return;
+                }
+
+                if(phone_number.length() != 10){
+                    vCorporation_Phone_Number.setError("Pls Enter Valid Phone Number");
+                    return;
+                }
+                else{
+                    int f = 0;
+                    for(int i=0;i<10;i++){
+                        if(!(phone_number.charAt(i) >= '0' && phone_number.charAt(i)<= '9')){
+                            f = 1;
+                        }
+                    }
+                    if(f == 1){
+                        vCorporation_Phone_Number.setError("Pls Enter valid phone Number");
+                        return;
+                    }
+                }
+
+                if(TextUtils.isEmpty(country)){
+                    vCorporation_Country.setError("Please Enter Country");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(state)){
+                    vCorporation_State.setError("Please Enter State");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(district)){
+                    vCorporation_District.setError("Please Enter District");
+                    return;
+                }
+
 
                 final Corporation  c1 = new Corporation(
                         user_name,
@@ -106,10 +150,13 @@ public class Sign_Up_Corporation extends AppCompatActivity {
                                     .setValue(c1).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
+
+
                                     Toast.makeText(Sign_Up_Corporation.this,"Registered Succesfully",Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(Sign_Up_Corporation.this,Login.class));
                                     finish();
                                 }
+
                             });
                         }
                         else{
@@ -121,6 +168,8 @@ public class Sign_Up_Corporation extends AppCompatActivity {
             }
         });
     }
+
+
 
     @Override
     public void onBackPressed()

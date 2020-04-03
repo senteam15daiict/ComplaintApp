@@ -7,13 +7,26 @@
     tools:context=".History">
 
 
-    <TextView
-        android:layout_width="wrap_content"
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="History"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        android:id="@+id/Citizen_History_Page_Main_Bar">
+
+        <include
+            android:id="@+id/Citizen_History_Page_Bar"
+            layout="@layout/app_bar_layout"/>
+
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Citizen_History_Page_Tab"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        </com.google.android.material.tabs.TabLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -24,6 +37,17 @@
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
         app:menu="@menu/menu_navigation"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:background="@color/yellow"/>
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Citizen_History_View_Pager"
+        android:layout_below="@+id/Citizen_History_Page_Main_Bar"
+        android:layout_above="@+id/bottom_navigation">
+
+    </androidx.viewpager.widget.ViewPager>
 
 </RelativeLayout>

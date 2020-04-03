@@ -1,30 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Citizen_home">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/Citizen_Home_Page_bar"
+        layout="@layout/app_bar_layout" />
+
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Home"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        android:layout_above="@+id/bottom_navigation"
+        android:layout_below="@+id/Citizen_Home_Page_bar">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/Spinner_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Spinner
+                    android:id="@+id/Country_Spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1" />
+
+                <Spinner
+                    android:id="@+id/State_Spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1" />
+
+                <Spinner
+                    android:id="@+id/District_Spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/Complaint_Description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Complaint Text"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/Complaint_Address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Local Address"
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Complaint Type:-"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:textSize="18dp"/>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Citizen_Home_Type_Spinner"
+                android:layout_marginTop="5dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    android:id="@+id/Citizen_Location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="GPS"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/Complaint_Image_Select_Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add Image" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Remove Image"
+                    android:textAllCaps="false"
+                    android:id="@+id/Remove_Image"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="gps address"
+                android:id="@+id/Gps_Address"
+                android:textSize="18dp"/>
+            <Button
+                android:id="@+id/Complaint_Submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/Complaint_Image_View"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_marginTop="10dp"
+                android:background="#000000" />
+        </LinearLayout>
+    </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:layout_alignParentBottom="true"
         android:background="@color/yellow"
+        android:visibility="visible"
         app:itemBackground="@color/yellow"
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
-        app:menu="@menu/menu_navigation"
-        android:layout_alignParentBottom="true"/>
+        app:menu="@menu/menu_navigation" />
 
 </RelativeLayout>
