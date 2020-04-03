@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -92,6 +93,44 @@ public class Sign_Up_Corporation extends AppCompatActivity {
                         state,
                         district
                 );
+
+                if(TextUtils.isEmpty(user_name)){
+                    vCorporation_User_Name.setError("Please Enter User Name");
+                    return;
+                }
+
+                if(phone_number.length() != 10){
+                    vCorporation_Phone_Number.setError("Pls Enter Valid Phone Number");
+                    return;
+                }
+                else{
+                    int f = 0;
+                    for(int i=0;i<10;i++){
+                        if(!(phone_number.charAt(i) >= '0' && phone_number.charAt(i)<= '9')){
+                            f = 1;
+                        }
+                    }
+                    if(f == 1){
+                        vCorporation_Phone_Number.setError("Pls Enter valid phone Number");
+                        return;
+                    }
+                }
+
+                if(TextUtils.isEmpty(country)){
+                    vCorporation_Country.setError("Please Enter Country");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(state)){
+                    vCorporation_State.setError("Please Enter State");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(district)){
+                    vCorporation_District.setError("Please Enter District");
+                    return;
+                }
+
 
                 final Corporation  c1 = new Corporation(
                         user_name,

@@ -27,7 +27,7 @@ public class Corporation {
         this.Profile_Image_Url = "";
         this.Types = new HashMap<String, String>();
         this.Types.put("dead_animal","0");
-        this.Types.put("garbage_dump","0");
+        this.Types.put("garbage_dump","1");
         this.Types.put("stagnant_water","0");
     }
 

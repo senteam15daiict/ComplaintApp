@@ -20,6 +20,7 @@ public class Complaint_Type_Adapter extends ArrayAdapter<Complaint_Type_Data> {
     public Context context;
     public List<Complaint_Type_Data> Spinner_Datas;
 
+
     public Complaint_Type_Adapter(@NonNull Context context, int resource,List<Complaint_Type_Data> Spinner_Datas) {
         super(context, resource,Spinner_Datas);
         this.context = context;

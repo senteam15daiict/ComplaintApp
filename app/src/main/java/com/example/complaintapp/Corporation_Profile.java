@@ -219,7 +219,7 @@ public class Corporation_Profile extends AppCompatActivity {
         vRemove_Type_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(vCorporation_Available_Complaint_Types != null &&  vCorporation_Available_Complaint_Types.getSelectedItem() != null){
+                if(vCorporation_Available_Complaint_Types != null &&  vCorporation_Available_Complaint_Types.getSelectedItem() != null && available_Type_List.size() >= 1){
                     Log.d("aqaq2","2");
                     Complaint_Type_Data d1 = (Complaint_Type_Data) vCorporation_Available_Complaint_Types.getSelectedItem();
                     String selectedtype = d1.iconName;
@@ -258,7 +258,6 @@ public class Corporation_Profile extends AppCompatActivity {
     }
 
     private void setSpinnersData() {
-
         available_Type_List.clear();
         not_available_Type_List.clear();
         Log.d("rrrrr","1");

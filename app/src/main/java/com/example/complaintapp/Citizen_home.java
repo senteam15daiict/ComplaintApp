@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -140,17 +141,28 @@ public class Citizen_home extends AppCompatActivity {
         vComplaint_Submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressDialog.setTitle("Uploading");
-                progressDialog.setMessage("Your Complaint is Being Uploaded");
-                progressDialog.setCanceledOnTouchOutside(false);
-                progressDialog.show();
                 Description = vComplaint_Description.getText().toString();
+                Address = vComplaint_Address.getText().toString();
 
                 //Log.d("aa1","1");
                 Input_Country = vCountry_Spinner.getSelectedItem().toString();
                 Input_State = vState_Spinner.getSelectedItem().toString();
                 Input_District = vDistrict_Spinner.getSelectedItem().toString();
                 //Log.d("aa2",Input_Country + " " + Input_State + " " + Input_District);
+                if(TextUtils.isEmpty(Address)){
+                    vComplaint_Address.setError("Please Enter Address");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(Description)){
+                    vComplaint_Description.setError("Please Enter Complaint Description");
+                    return;
+                }
+
+                if(Input_Country.equals("Country") || Input_State.equals("State") || Input_District.equals("District")){
+                    Toast.makeText(Citizen_home.this,"Please Select the District",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 submit();
             }
         });
@@ -160,6 +172,29 @@ public class Citizen_home extends AppCompatActivity {
             public void onClick(View v) {
                 vFilePath = null;
                 vComplaint_Image_View.setImageDrawable(null);
+            }
+        });
+
+        vDistrict_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Input_Country = vCountry_Spinner.getSelectedItem().toString();
+                Input_State = vState_Spinner.getSelectedItem().toString();
+                Input_District = parent.getItemAtPosition(position).toString();
+                //Log.d("SDSDSD",Input_District);
+
+                if(!Input_Country.equals("Country") && !Input_State.equals("State") && !Input_District.equals("District")){
+                    setSpinnerData(Input_Country,Input_State,Input_District);
+                }
+                else{
+                    type_adapter.clear();
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
@@ -227,6 +262,264 @@ public class Citizen_home extends AppCompatActivity {
         });
     }
 
+    private void setLocationData() {
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("Corporation").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Set<String> s = new HashSet<String>();
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    s.add(dataSnapshot1.child("location").child("Country").getValue().toString());
+                }
+                Country_Adapter.clear();
+                Country_Adapter.add("Country");
+                for(String s1:s){
+                    Country_Adapter.add(s1);
+                }
+                Country_Adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        vCountry_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Input_Country = parent.getItemAtPosition(position).toString();
+                //Toast.makeText(Citizen_home.this,"Please Select A Country First",Toast.LENGTH_LONG).show();
+                if(!Input_Country.equals("Country")){
+                    databaseReference = FirebaseDatabase.getInstance().getReference();
+                    databaseReference.child("Corporation").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Set<String> s = new HashSet<String>();
+                            for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+
+                                if(Input_Country.equals(dataSnapshot1.child("location").child("Country").getValue().toString())){
+                                    s.add(dataSnapshot1.child("location").child("State").getValue().toString());
+                                }
+                            }
+                            State_Adapter.clear();
+                            State_Adapter.add("State");
+                            for(String s1:s){
+                                State_Adapter.add(s1);
+                            }
+                            State_Adapter.notifyDataSetChanged();
+                            vState_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    Input_State = parent.getItemAtPosition(position).toString();
+                                    //Toast.makeText(Citizen_home.this,"Please Select State before District",Toast.LENGTH_LONG).show();
+                                    if(!Input_State.equals("State") && !Input_Country.equals("Country")){
+                                        databaseReference = FirebaseDatabase.getInstance().getReference();
+                                        databaseReference.child("Corporation").addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                Set<String> s = new HashSet<String>();
+                                                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                                                    if(Input_Country.equals(dataSnapshot1.child("location").child("Country").getValue().toString())
+                                                            && Input_State.equals(dataSnapshot1.child("location").child("State").getValue().toString())){
+                                                        s.add(dataSnapshot1.child("location").child("District").getValue().toString());
+                                                    }
+                                                }
+                                                District_Adapter.clear();
+                                                District_Adapter.add("District");
+                                                for(String s1:s){
+                                                    District_Adapter.add(s1);
+                                                }
+                                                District_Adapter.notifyDataSetChanged();
+                                                vDistrict_Spinner.setSelection(0);
+                                                type_adapter.clear();
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
+                                    }
+                                    else{
+                                        District_Adapter.clear();
+                                        District_Adapter.add("District");
+                                        District_Adapter.notifyDataSetChanged();
+                                    }
+                                    /*databaseReference = FirebaseDatabase.getInstance().getReference();
+                                    databaseReference.child("Corporation").addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            Set<String> s = new HashSet<String>();
+                                            for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                                                if(Input_Country.equals(dataSnapshot1.child("location").child("Country").getValue().toString())
+                                                        && Input_State.equals(dataSnapshot1.child("location").child("State").getValue().toString())){
+                                                    s.add(dataSnapshot1.child("location").child("District").getValue().toString());
+                                                }
+                                            }
+                                            District_Adapter.clear();
+                                            for(String s1:s){
+                                                District_Adapter.add(s1);
+                                            }
+                                            District_Adapter.notifyDataSetChanged();
+                                            //String ss = s.iterator().next();
+                                            //Log.d("llll",Input_Country + " " + Input_State + " " + ss);
+                                            //setSpinnerData(Input_Country,Input_State,ss);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });*/
+
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+                else{
+                    State_Adapter.clear();
+                    State_Adapter.add("State");
+                    State_Adapter.notifyDataSetChanged();
+                    District_Adapter.clear();
+                    District_Adapter.add("District");
+                    District_Adapter.notifyDataSetChanged();
+                }
+                /*databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference.child("Corporation").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Set<String> s = new HashSet<String>();
+                        for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+
+                            if(Input_Country.equals(dataSnapshot1.child("location").child("Country").getValue().toString())){
+                                s.add(dataSnapshot1.child("location").child("State").getValue().toString());
+                            }
+                        }
+                        State_Adapter.clear();
+                        for(String s1:s){
+                            State_Adapter.add(s1);
+                        }
+                        State_Adapter.notifyDataSetChanged();
+                        vState_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                Input_State = parent.getItemAtPosition(position).toString();
+                                //Toast.makeText(Citizen_home.this,"Please Select State before District",Toast.LENGTH_LONG).show();
+
+                                databaseReference = FirebaseDatabase.getInstance().getReference();
+                                databaseReference.child("Corporation").addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        Set<String> s = new HashSet<String>();
+                                        for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                                            if(Input_Country.equals(dataSnapshot1.child("location").child("Country").getValue().toString())
+                                                    && Input_State.equals(dataSnapshot1.child("location").child("State").getValue().toString())){
+                                                s.add(dataSnapshot1.child("location").child("District").getValue().toString());
+                                            }
+                                        }
+                                        District_Adapter.clear();
+                                        for(String s1:s){
+                                            District_Adapter.add(s1);
+                                        }
+                                        District_Adapter.notifyDataSetChanged();
+                                        //String ss = s.iterator().next();
+                                        //Log.d("llll",Input_Country + " " + Input_State + " " + ss);
+                                        //setSpinnerData(Input_Country,Input_State,ss);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });*/
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+    }
+
+    private void setSpinnerData(final String country, final String state, final String district) {
+        l1.clear();
+        type_adapter.notifyDataSetChanged();
+        Log.d("hello - 0",String.valueOf(l1.size()));
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("Corporation").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    String cname = dataSnapshot1.child("location").child("Country").getValue().toString();
+                    String sname = dataSnapshot1.child("location").child("State").getValue().toString();
+                    String dname = dataSnapshot1.child("location").child("District").getValue().toString();
+                    if(cname.equals(country) && sname.equals(state) && dname.equals(district)){
+                        Log.d("hello - 1",country + " " + state + " " + district);
+                        Receiver_Corporation_Id = dataSnapshot1.getKey();
+                        databaseReference = FirebaseDatabase.getInstance().getReference();
+                        databaseReference.child("Corporation").child(Receiver_Corporation_Id).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){
+                                    for(DataSnapshot dataSnapshot1 : dataSnapshot.child("Types").getChildren()){
+                                        String type = dataSnapshot1.getKey();
+                                        String available = dataSnapshot1.getValue().toString();
+                                        int x1 = getResId("ic_" + type ,R.drawable.class);
+                                        if(available.equals("1")){
+                                            //l1.add(new Complaint_Type_Data(x1,type));
+                                            type_adapter.add(new Complaint_Type_Data(x1,type));
+                                            type_adapter.notifyDataSetChanged();
+                                        }
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
 
     private void submit() {
@@ -239,9 +532,18 @@ public class Citizen_home extends AppCompatActivity {
                     String country1 = snapshot.child("location").child("Country").getValue().toString();
                     String state1 = snapshot.child("location").child("State").getValue().toString();
                     String district1 = snapshot.child("location").child("District").getValue().toString();
+                    if(vCitizen_Home_Type_Spinner.getSelectedItem() == null){
+                        Toast.makeText(Citizen_home.this,"Please Select the Type of Complaint",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    progressDialog.setTitle("Uploading");
+                    progressDialog.setMessage("Your Complaint is Being Uploaded");
+                    progressDialog.setCanceledOnTouchOutside(false);
+                    progressDialog.show();
 
                     if(country1.equals(Input_Country) && state1.equals(Input_State) && district1.equals(Input_District)){
                         Receiver_Corporation_Id = snapshot.getKey();
+
 
                         date = java.text.DateFormat.getDateTimeInstance().format(new Date());
 
@@ -291,118 +593,6 @@ public class Citizen_home extends AppCompatActivity {
 
             }
         });
-
-    }
-
-    private void setLocationData() {
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("Corporation").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Set<String> s = new HashSet<String>();
-                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
-                    s.add(dataSnapshot1.child("location").child("Country").getValue().toString());
-                }
-                Country_Adapter.clear();
-                for(String s1:s){
-                    Country_Adapter.add(s1);
-                }
-                Country_Adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        vCountry_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Input_Country = parent.getItemAtPosition(position).toString();
-                //Toast.makeText(Citizen_home.this,"Please Select A Country First",Toast.LENGTH_LONG).show();
-
-                databaseReference = FirebaseDatabase.getInstance().getReference();
-                databaseReference.child("Corporation").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Set<String> s = new HashSet<String>();
-                        for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
-
-                            if(Input_Country.equals(dataSnapshot1.child("location").child("Country").getValue().toString())){
-                                s.add(dataSnapshot1.child("location").child("State").getValue().toString());
-                            }
-                        }
-                        State_Adapter.clear();
-                        for(String s1:s){
-                            State_Adapter.add(s1);
-                        }
-                        State_Adapter.notifyDataSetChanged();
-                        vState_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                Input_State = parent.getItemAtPosition(position).toString();
-                                //Toast.makeText(Citizen_home.this,"Please Select State before District",Toast.LENGTH_LONG).show();
-
-                                databaseReference = FirebaseDatabase.getInstance().getReference();
-                                databaseReference.child("Corporation").addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        Set<String> s = new HashSet<String>();
-                                        for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
-                                            if(Input_Country.equals(dataSnapshot1.child("location").child("Country").getValue().toString())
-                                                    && Input_State.equals(dataSnapshot1.child("location").child("State").getValue().toString())){
-                                                s.add(dataSnapshot1.child("location").child("District").getValue().toString());
-                                            }
-                                        }
-                                        District_Adapter.clear();
-                                        for(String s1:s){
-                                            District_Adapter.add(s1);
-                                        }
-                                        District_Adapter.notifyDataSetChanged();
-                                        vDistrict_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                            @Override
-                                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                                Input_District = parent.getItemAtPosition(position).toString();
-                                                setSpinnerData(Input_Country,Input_State,Input_District);
-                                            }
-
-                                            @Override
-                                            public void onNothingSelected(AdapterView<?> parent) {
-
-                                            }
-                                        });
-
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
-
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
-
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
 
     }
 
@@ -464,52 +654,12 @@ public class Citizen_home extends AppCompatActivity {
                 });
     }
 
-    private void setSpinnerData(final String country, final String state, final String district) {
-        l1.clear();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("Corporation").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
-                    String cname = dataSnapshot1.child("location").child("Country").getValue().toString();
-                    String sname = dataSnapshot1.child("location").child("State").getValue().toString();
-                    String dname = dataSnapshot1.child("location").child("District").getValue().toString();
-                    if(cname.equals(country) && sname.equals(state) && dname.equals(district)){
-                        Receiver_Corporation_Id = dataSnapshot1.getKey();
-                        databaseReference = FirebaseDatabase.getInstance().getReference();
-                        databaseReference.child("Corporation").child(Receiver_Corporation_Id).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if(dataSnapshot.exists()){
-                                    for(DataSnapshot dataSnapshot1 : dataSnapshot.child("Types").getChildren()){
-                                        String type = dataSnapshot1.getKey();
-                                        String available = dataSnapshot1.getValue().toString();
-                                        int x1 = getResId("ic_" + type ,R.drawable.class);
-                                        if(available.equals("1")){
-                                            l1.add(new Complaint_Type_Data(x1,type));
-                                            type_adapter.notifyDataSetChanged();
-                                        }
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
+    /*public void onItemSelected(AdapterView<?> parent, View arg1, int pos,long id) {
+        Input_District = (String) parent.getItemAtPosition(pos);
+        Input_Country =  vCountry_Spinner.getSelectedItem().toString();
+        Input_State = vState_Spinner.getSelectedItem().toString();
+        setSpinnerData(Input_Country,Input_State,Input_District);
+    }*/
 
     public static int getResId(String resName, Class<?> c) {
 

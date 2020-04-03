@@ -28,9 +28,6 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBIFIzeM2R-lRuIIs2TrmDrZO8BtzH3JRA" />
 
         <activity android:name=".Complaint_On_The_Job_Full" />
         <activity android:name=".Complaint_Resolved_Full" />

@@ -73,7 +73,7 @@ public class Login_Corporation extends AppCompatActivity {
                                 String c1Password = snapshot.child("Password").getValue().toString();
                                 String c1Security_Key = snapshot.child("Security_Key").getValue().toString();
                                 Log.d(c1Password,c1Security_Key);
-                                Toast.makeText(Login_Corporation.this,  c1Password + " security key = " + c1Security_Key, Toast.LENGTH_LONG).show();
+                                //Toast.makeText(Login_Corporation.this,  c1Password + " security key = " + c1Security_Key, Toast.LENGTH_LONG).show();
                                 if (c1Password.equals(password) && c1Security_Key.equals(security_key)) {
 
                                     fauth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
