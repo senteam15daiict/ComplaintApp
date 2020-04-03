@@ -2,6 +2,7 @@ package com.example.complaintapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class Sign_Up_Corporation extends AppCompatActivity {
     DatabaseReference databaseReference;
     FirebaseAuth fauth;
     int backButtonCount = 0;
+    Toolbar vCorporation_Sign_Up_Page_bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,9 @@ public class Sign_Up_Corporation extends AppCompatActivity {
         vCorporation_Register_As_Citizen = (TextView) findViewById(R.id.Corporation_Register_As_Citizen);
         databaseReference = FirebaseDatabase.getInstance().getReference();
         fauth = FirebaseAuth.getInstance();
+        vCorporation_Sign_Up_Page_bar = (Toolbar) findViewById(R.id.Corporation_Sign_Up_Page_bar);
+        setSupportActionBar(vCorporation_Sign_Up_Page_bar);
+        getSupportActionBar().setTitle("Corporation Sign Up");
 
         vCorporation_Login_Screen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +83,7 @@ public class Sign_Up_Corporation extends AppCompatActivity {
                 String email = vCorporation_Email.getText().toString();
                 String password = vCorporation_Password.getText().toString();
                 String security_key = vCorporation_Security_Key.getText().toString();
-                String country = vCorporation_Country.getText().toString();
+                final String country = vCorporation_Country.getText().toString();
                 String state = vCorporation_State.getText().toString();
                 String district = vCorporation_District.getText().toString();
 
@@ -106,10 +111,13 @@ public class Sign_Up_Corporation extends AppCompatActivity {
                                     .setValue(c1).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
+
+
                                     Toast.makeText(Sign_Up_Corporation.this,"Registered Succesfully",Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(Sign_Up_Corporation.this,Login.class));
                                     finish();
                                 }
+
                             });
                         }
                         else{
@@ -121,6 +129,8 @@ public class Sign_Up_Corporation extends AppCompatActivity {
             }
         });
     }
+
+
 
     @Override
     public void onBackPressed()

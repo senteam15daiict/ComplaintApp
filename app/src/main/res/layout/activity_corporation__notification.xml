@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".Corporation_Notification">
 
+    <include
+        android:id="@+id/Corporation_Notifications_Page_Bar"
+        layout="@layout/app_bar_layout"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,6 +27,7 @@
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
         app:menu="@menu/corporation_menu_navigation"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:background="@color/yellow"/>
 
 </RelativeLayout>

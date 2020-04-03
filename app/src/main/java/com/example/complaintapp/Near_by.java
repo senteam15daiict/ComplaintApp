@@ -2,6 +2,7 @@ package com.example.complaintapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +11,12 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Objects;
+
 public class Near_by extends AppCompatActivity {
 
     int backButtonCount = 0;
+    Toolbar vNear_by_Page_Bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +24,9 @@ public class Near_by extends AppCompatActivity {
         setContentView(R.layout.activity_near_by);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        vNear_by_Page_Bar = (Toolbar) findViewById(R.id.Near_by_Page_Bar);
+        setSupportActionBar(vNear_by_Page_Bar);
+        getSupportActionBar().setTitle("Near By");
 
         bottomNavigationView.setSelectedItemId(R.id.Near_by);
 

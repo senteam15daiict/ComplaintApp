@@ -3,11 +3,13 @@ package com.example.complaintapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +37,7 @@ public class Login_Corporation extends AppCompatActivity {
     FirebaseAuth fauth;
     DatabaseReference databaseReference;
     int backButtonCount = 0;
-
+    Toolbar vCorporation_Login_Page_bar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,9 @@ public class Login_Corporation extends AppCompatActivity {
         vCorporation_Forgot_Password = (TextView) findViewById(R.id.Corporation_Forgot_Password);
         vTo_Open_Citizen_Login = (TextView) findViewById(R.id.To_Open_Citizen_Login);
         fauth = FirebaseAuth.getInstance();
+        vCorporation_Login_Page_bar = (Toolbar) findViewById(R.id.Corporation_Login_Page_bar);
+        setSupportActionBar(vCorporation_Login_Page_bar);
+        getSupportActionBar().setTitle("Corporation Login");
 
         vCorporation_Login_Button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,9 +69,12 @@ public class Login_Corporation extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.exists()){
                             for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                Corporation c1 = snapshot.getValue(Corporation.class);
-                                //Toast.makeText(Login_Corporation.this, c1.Email + " " + c1.Password + " security key = " + c1.Security_Key, Toast.LENGTH_LONG).show();
-                                if (c1.Password.equals(password) && c1.Security_Key.equals(security_key)) {
+                                //Corporation c1 = new Corporation();
+                                String c1Password = snapshot.child("Password").getValue().toString();
+                                String c1Security_Key = snapshot.child("Security_Key").getValue().toString();
+                                Log.d(c1Password,c1Security_Key);
+                                Toast.makeText(Login_Corporation.this,  c1Password + " security key = " + c1Security_Key, Toast.LENGTH_LONG).show();
+                                if (c1Password.equals(password) && c1Security_Key.equals(security_key)) {
 
                                     fauth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                         @Override

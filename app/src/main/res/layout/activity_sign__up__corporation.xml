@@ -1,123 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Sign_Up_Corporation">
 
-    <LinearLayout
+    <include
+        android:id="@+id/Corporation_Sign_Up_Page_bar"
+        layout="@layout/app_bar_layout" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_below="@+id/Corporation_Sign_Up_Page_bar">
 
-
-        <EditText
-            android:id="@+id/Corporation_User_Name"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="24dp"
-            android:hint="User Name"
-            android:textSize="24sp" />
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/Corporation_Phone_Number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="24dp"
-            android:hint="Phone Number"
-            android:textSize="24sp" />
 
-        <EditText
-            android:id="@+id/Corporation_Email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="24dp"
-            android:hint="Email"
-            android:textColor="#000000"
-            android:textSize="24sp" />
+            <EditText
+                android:id="@+id/Corporation_User_Name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="24dp"
+                android:hint="User Name"
+                android:textSize="24sp" />
 
-        <EditText
-            android:id="@+id/Corporation_Password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="24dp"
-            android:hint="Password"
-            android:textSize="24sp" />
+            <EditText
+                android:id="@+id/Corporation_Phone_Number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="24dp"
+                android:hint="Phone Number"
+                android:textSize="24sp" />
 
-        <EditText
-            android:id="@+id/Corporation_Security_Key"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="24dp"
-            android:hint="Security Key"
-            android:textSize="24sp" />
+            <EditText
+                android:id="@+id/Corporation_Email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="24dp"
+                android:hint="Email"
+                android:textColor="#000000"
+                android:textSize="24sp" />
 
-        <EditText
-            android:id="@+id/Corporation_Country"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="24dp"
-            android:hint="Country"
-            android:textSize="24sp" />
+            <EditText
+                android:id="@+id/Corporation_Password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="24dp"
+                android:hint="Password"
+                android:textSize="24sp" />
 
-        <EditText
-            android:id="@+id/Corporation_State"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="24dp"
-            android:hint="State"
-            android:textSize="24sp" />
+            <EditText
+                android:id="@+id/Corporation_Security_Key"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="24dp"
+                android:hint="Security Key"
+                android:textSize="24sp" />
 
-        <EditText
-            android:id="@+id/Corporation_District"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="24dp"
-            android:hint="District"
-            android:textSize="24sp" />
+            <EditText
+                android:id="@+id/Corporation_Country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="24dp"
+                android:hint="Country"
+                android:textSize="24sp" />
 
-        <Button
-            android:id="@+id/Corporation_Sign_Up"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="24dp"
-            android:padding="5dp"
-            android:text="Sign Up"
-            android:textAllCaps="false"
-            android:textSize="24dp" />
+            <EditText
+                android:id="@+id/Corporation_State"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="24dp"
+                android:hint="State"
+                android:textSize="24sp" />
 
-        <TextView
-            android:id="@+id/Corporation_Login_Screen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:gravity="center_horizontal"
-            android:text="Already Have an Account? Click here"
-            android:textColor="#000000"
-            android:textSize="15dp" />
+            <EditText
+                android:id="@+id/Corporation_District"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="24dp"
+                android:hint="District"
+                android:textSize="24sp" />
 
-        <TextView
-            android:id="@+id/Corporation_Register_As_Citizen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:text="Register as Citizen"
-            android:textColor="#000000"
-            android:textSize="15dp" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/Corporation_Sign_Up"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="24dp"
+                android:padding="5dp"
+                android:text="Sign Up"
+                android:textAllCaps="false"
+                android:textSize="24dp" />
 
-</ScrollView>
+            <TextView
+                android:id="@+id/Corporation_Login_Screen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal"
+                android:text="Already Have an Account? Click here"
+                android:textColor="#000000"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/Corporation_Register_As_Citizen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="Register as Citizen"
+                android:textColor="#000000"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+    </ScrollView>
+</RelativeLayout>

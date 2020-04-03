@@ -7,6 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".Notification">
 
+    <include
+        android:id="@+id/Citizen_Notification_Page_Bar"
+        layout="@layout/app_bar_layout"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +28,8 @@
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
         app:menu="@menu/menu_navigation"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:background="@color/yellow"/>
 
 
 </RelativeLayout>

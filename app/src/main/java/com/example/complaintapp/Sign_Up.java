@@ -3,6 +3,7 @@ package com.example.complaintapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,6 +34,7 @@ public class Sign_Up extends AppCompatActivity {
     FirebaseAuth fauth;
     DatabaseReference databaseReference;
     int backButtonCount = 0;
+    Toolbar vCitizen_Sign_Up_Page_Bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,9 @@ public class Sign_Up extends AppCompatActivity {
         vRegister_Corporation = (TextView) findViewById(R.id.Register_Corporation);
         fauth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference("Citizen");
+        vCitizen_Sign_Up_Page_Bar = (Toolbar) findViewById(R.id.Citizen_Sign_Up_Page_Bar);
+        setSupportActionBar(vCitizen_Sign_Up_Page_Bar);
+        getSupportActionBar().setTitle("Citizen Sign Up");
 
         vSign_Up.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,8 +126,7 @@ public class Sign_Up extends AppCompatActivity {
                                     startActivity(new Intent(getApplicationContext(),Login.class));
                                 }
                             });
-                            //Toast.makeText(create_acc.this,"User Created",Toast.LENGTH_SHORT).show();
-                            //startActivity(new Intent(getApplicationContext(),MainActivity.class));
+
                         }
                         else{
                             Toast.makeText(Sign_Up.this,"Error! " + task.getException().getMessage(),Toast.LENGTH_SHORT).show();

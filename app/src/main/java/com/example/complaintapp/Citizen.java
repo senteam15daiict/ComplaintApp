@@ -4,7 +4,8 @@ public class Citizen {
     public String User_Name;
     public String Password;
     public String Email;
-    public String PhoneNumber;
+    public String Phone_Number;
+    public String Profile_Image_Url;
 
     public Citizen(){
 
@@ -14,6 +15,7 @@ public class Citizen {
         this.User_Name = name;
         this.Password = password;
         this.Email = email;
-        this.PhoneNumber = phoneNumber;
+        this.Phone_Number = phoneNumber;
+        this.Profile_Image_Url = "";
     }
 }

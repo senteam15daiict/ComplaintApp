@@ -1,9 +1,7 @@
 package com.example.complaintapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -12,19 +10,32 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
 
     DatabaseReference databaseReference;
     FirebaseAuth fauth;
     int backButtonCount = 0;
-
+    Toolbar vMain_Activity_Toolbar;
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        vMain_Activity_Toolbar = (Toolbar) findViewById(R.id.Main_Activity_Toolbar);
+
+        setSupportActionBar(vMain_Activity_Toolbar);
+        getSupportActionBar().setTitle("Complaint App");
+
 
         fauth = FirebaseAuth.getInstance();
         if(fauth.getCurrentUser() == null){
