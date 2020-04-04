@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/layout_background"
     tools:context=".Login_Corporation">
 
     <include
@@ -21,6 +22,12 @@
             android:layout_below="@+id/Corporation_Login_Page_bar"
             android:orientation="vertical">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/app_icon"
+                android:layout_gravity="center"
+                />
 
             <EditText
                 android:id="@+id/Corporation_Login_Email"
@@ -28,8 +35,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="12dp"
-                android:layout_marginTop="24dp"
-                android:hint="Email"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/ic_email"
+                android:inputType="textEmailAddress"
+                android:hint="@string/email"
                 android:textColor="#000000"
                 android:textSize="24sp" />
 
@@ -39,7 +49,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="24dp"
-                android:hint="Password"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/ic_password"
                 android:textSize="24sp" />
 
             <EditText
@@ -48,7 +61,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="24dp"
-                android:hint="Security key"
+                android:drawablePadding="5dp"
+                android:inputType="textPassword"
+                android:drawableLeft="@drawable/ic_key"
+                android:hint="@string/security_key"
                 android:textSize="24sp" />
 
             <Button
@@ -57,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="24dp"
+                android:background="@drawable/button_background"
                 android:padding="5dp"
                 android:text="login"
                 android:textSize="24dp" />
