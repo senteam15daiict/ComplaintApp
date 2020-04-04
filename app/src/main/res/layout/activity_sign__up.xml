@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/layout_background"
     tools:context=".Sign_Up">
 
     <include
@@ -27,7 +28,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="24dp"
-                android:hint="User Name"
+                android:hint="@string/user_name"
+                android:inputType="text"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_profile"
                 android:textSize="24sp" />
 
             <EditText
@@ -36,7 +40,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="24dp"
-                android:hint="Phone Number"
+                android:drawableStart="@drawable/ic_phone"
+                android:hint="@string/phone_number"
+                android:inputType="phone"
+                android:drawablePadding="5dp"
                 android:textSize="24sp" />
 
             <EditText
@@ -46,7 +53,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="24dp"
-                android:hint="Email"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:drawableStart="@drawable/ic_email"
+                android:drawablePadding="5dp"
                 android:textColor="#000000"
                 android:textSize="24sp" />
 
@@ -56,7 +66,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="24dp"
-                android:hint="Password"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:drawableStart="@drawable/ic_password"
+                android:drawablePadding="5dp"
                 android:textSize="24sp" />
 
             <Button
@@ -66,7 +79,8 @@
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="24dp"
                 android:padding="5dp"
-                android:text="Sign Up"
+                android:background="@drawable/button_background"
+                android:text="@string/sign_up"
                 android:textAllCaps="false"
                 android:textSize="24dp" />
 
