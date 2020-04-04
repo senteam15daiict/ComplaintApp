@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/layout_background"
     tools:context=".Login">
 
     <include
@@ -20,16 +21,22 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/Citizen_Login_Page_Bar"
             android:orientation="vertical">
-
-
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/app_icon"
+                />
             <EditText
                 android:id="@+id/Login_Citizen_Email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_email"
+                android:inputType="textEmailAddress"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="24dp"
-                android:hint="Email"
+                android:hint="@string/email"
                 android:textColor="#000000"
                 android:textSize="24sp" />
 
@@ -39,7 +46,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="24dp"
-                android:hint="Password"
+                android:inputType="textPassword"
+                android:drawableLeft="@drawable/ic_password"
+                android:hint=" Password"
                 android:textSize="24sp" />
 
             <Button
@@ -48,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="24dp"
+                android:background="@drawable/button_background"
                 android:padding="5dp"
                 android:text="login"
                 android:textSize="24dp" />
