@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -111,6 +112,64 @@ public class Complaint_On_The_Job_Full extends AppCompatActivity {
                     }
                 });
 
+        vComplaint_On_The_Job_Full_Address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String[] lat = new String[1];
+                final String[] lon = new String[1];
+                databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference.child("Complaints_Sender_On_The_Job").child(Citizen_User_Id).child(Corporation_User_Id).child(Complaint_Id)
+                        .addValueEventListener(new ValueEventListener() {
+                            @SuppressLint("SetTextI18n")
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){
+                                    lat[0] = dataSnapshot.child("lat").getValue().toString();
+                                    lon[0] = dataSnapshot.child("lon").getValue().toString();
+
+                                    vComplaint_On_The_Job_Full_Address.setText(lat[0] + "_" + lon[0]);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                String x = vComplaint_On_The_Job_Full_Address.getText().toString();
+                lat[0] = "";
+                lon[0] = "";
+                int f = 0;
+                for(int i=0;i<x.length();i++){
+                    if(f == 1){
+                        lon[0] += x.charAt(i);
+                    }
+                    else{
+                        if(x.charAt(i) == '_'){
+                            f = 1;
+                        }
+                        else{
+                            lat[0] += x.charAt(i);
+                        }
+                    }
+                }
+                //vComplaint_Pending_Full_Address.setText(address);
+                //Toast.makeText(Complaint_Pending_Full.this,lat[0] + " -- " + lon[0],Toast.LENGTH_LONG).show();
+
+                if(!lon[0].equals("")){
+                    Intent intent = new Intent(Complaint_On_The_Job_Full.this,MapsActivity2.class);
+                    final Bundle b1 = new Bundle();
+                    b1.putString("Lat", lat[0]);
+                    b1.putString("Lon", lon[0]);
+                    intent.putExtras(b1);
+                    //Toast.makeText(Complaint_Pending_Full.this,address,Toast.LENGTH_LONG).show();
+                    startActivity(intent);
+                }
+
+            }
+        });
+
         vChange_To_Pending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,7 +251,7 @@ public class Complaint_On_The_Job_Full extends AppCompatActivity {
         vChange_To_Resolved.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(User_Type == "Citizen"){
+                if(User_Type.equals("Citizen")){
                     Toast.makeText(Complaint_On_The_Job_Full.this,"Your are not Authorized to Change the Status of the complaint",Toast.LENGTH_LONG).show();
                 }
                 else {
@@ -203,7 +262,7 @@ public class Complaint_On_The_Job_Full extends AppCompatActivity {
                 }
             }
         });
-    }
+}
 
     public static int getResId(String resName, Class<?> c) {
 

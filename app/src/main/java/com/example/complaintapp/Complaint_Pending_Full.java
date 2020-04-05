@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.location.Address;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +38,7 @@ public class Complaint_Pending_Full extends AppCompatActivity {
     TextView vComplaint_Pending_Full_Agree_Count,vComplaint_Pending_Full_Disagree_Count;
     Button vChange_To_On_The_Job;
     StorageReference storageReference;
+    String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +111,7 @@ public class Complaint_Pending_Full extends AppCompatActivity {
                             vComplaint_Pending_Full_Time.setText(c1.date);
                             vComplaint_Pending_Full_Complaint_Type.setText(c1.Type);
                             vComplaint_Pending_Full_Description.setText(c1.Description);
+                            address = vComplaint_Pending_Full_Address.getText().toString();
                             //Log.d("123456","" + c1.Citizen_User_Name);
 
                             if(!c1.Image_Url.equals("")){
@@ -121,6 +125,66 @@ public class Complaint_Pending_Full extends AppCompatActivity {
 
                     }
                 });
+
+        final int[] clicks = {0};
+        vComplaint_Pending_Full_Address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String[] lat = new String[1];
+                final String[] lon = new String[1];
+                databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference.child("Complaints_Sender_Pending").child(Citizen_User_Id).child(Corporation_User_Id).child(Complaint_Id)
+                        .addValueEventListener(new ValueEventListener() {
+                            @SuppressLint("SetTextI18n")
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){
+                                    lat[0] = dataSnapshot.child("lat").getValue().toString();
+                                    lon[0] = dataSnapshot.child("lon").getValue().toString();
+
+                                    vComplaint_Pending_Full_Address.setText(lat[0] + "_" + lon[0]);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                String x = vComplaint_Pending_Full_Address.getText().toString();
+                lat[0] = "";
+                lon[0] = "";
+                int f = 0;
+                for(int i=0;i<x.length();i++){
+                    if(f == 1){
+                        lon[0] += x.charAt(i);
+                    }
+                    else{
+                        if(x.charAt(i) == '_'){
+                            f = 1;
+                        }
+                        else{
+                            lat[0] += x.charAt(i);
+                        }
+                    }
+                }
+                //vComplaint_Pending_Full_Address.setText(address);
+                //Toast.makeText(Complaint_Pending_Full.this,lat[0] + " -- " + lon[0],Toast.LENGTH_LONG).show();
+
+                if(!lon[0].equals("")){
+                    Intent intent = new Intent(Complaint_Pending_Full.this,MapsActivity2.class);
+                    final Bundle b1 = new Bundle();
+                    b1.putString("Lat", lat[0]);
+                    b1.putString("Lon", lon[0]);
+                    intent.putExtras(b1);
+                    //Toast.makeText(Complaint_Pending_Full.this,address,Toast.LENGTH_LONG).show();
+                    startActivity(intent);
+                }
+
+
+            }
+        });
 
         vChange_To_On_The_Job.setOnClickListener(new View.OnClickListener() {
             @Override

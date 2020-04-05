@@ -87,7 +87,7 @@ public class Citizen_home extends AppCompatActivity {
     Complaint_Type_Adapter type_adapter;
 
     TextView vGps_Address;
-
+    String lat,lon,gpsCountry,gpsState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,6 +163,17 @@ public class Citizen_home extends AppCompatActivity {
                     Toast.makeText(Citizen_home.this,"Please Select the District",Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                if(lat == null || lon == null){
+                    Toast.makeText(Citizen_home.this,"Please Add GPS location",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(!gpsCountry.equals(Input_Country) && !gpsState.equals(Input_State)){
+                    Toast.makeText(Citizen_home.this,"Selected State and Gps location is not Same",Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 submit();
             }
         });
@@ -234,19 +245,8 @@ public class Citizen_home extends AppCompatActivity {
         vCitizen_Location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
-                Intent intent;
-                try {
-                    intent = builder.build((Activity) getApplicationContext());
-                    startActivityForResult(intent,PlacePickerRequestCode);
-                } catch (GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    e.printStackTrace();
-                }
-                */
+                Intent intent = new Intent(Citizen_home.this,MapsActivity.class);
+                startActivityForResult(intent,PlacePickerRequestCode);
             }
         });
 
@@ -544,7 +544,6 @@ public class Citizen_home extends AppCompatActivity {
                     if(country1.equals(Input_Country) && state1.equals(Input_State) && district1.equals(Input_District)){
                         Receiver_Corporation_Id = snapshot.getKey();
 
-
                         date = java.text.DateFormat.getDateTimeInstance().format(new Date());
 
                         databaseReference.child("Citizen").child(Transmitter_Citizen_Id)
@@ -604,6 +603,7 @@ public class Citizen_home extends AppCompatActivity {
         Complaint_Type_Data d1 = (Complaint_Type_Data) vCitizen_Home_Type_Spinner.getSelectedItem();
         Complaint_type = d1.iconName;
         Complaint_Image_Url = url;
+
         c1 = new Complaint(
                 Transmitter_Citizen_Id,
                 Receiver_Corporation_Id,
@@ -614,7 +614,9 @@ public class Citizen_home extends AppCompatActivity {
                 Complaint_type,
                 Description,
                 vCitizen_User_Name,
-                Complaint_Id
+                Complaint_Id,
+                lat,
+                lon
         );
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Complaints_Sender_Pending");
@@ -686,6 +688,7 @@ public class Citizen_home extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -698,10 +701,14 @@ public class Citizen_home extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        /*if(requestCode == PlacePickerRequestCode  && resultCode == RESULT_OK ){
-            Place place = PlacePicker.getPlace(data,this);
-            String address = String.format("Place: #s",place.getAddress());
-            vGps_Address.setText(address);
-        }*/
+        if(requestCode == PlacePickerRequestCode  && resultCode == RESULT_OK ){
+            lat = data.getStringExtra("lat");
+            lon = data.getStringExtra("long");
+            gpsCountry = data.getStringExtra("Country");
+            gpsState = data.getStringExtra("State");
+
+            vGps_Address.setText("latitude = " + lat + " longtitude = " + lon);
+            //Toast.makeText(Citizen_home.this,"lat = " + lat + "long = " + lon,Toast.LENGTH_LONG).show();
+        }
     }
 }
