@@ -152,6 +152,7 @@ public class Profile extends AppCompatActivity {
                                     Toast.makeText(Profile.this,"Account Deleted",Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(Profile.this,MainActivity.class);
                                     startActivity(intent);
+                                    finish();
                                 }
                                 else{
                                     Toast.makeText(Profile.this, Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();

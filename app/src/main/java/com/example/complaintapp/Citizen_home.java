@@ -169,7 +169,7 @@ public class Citizen_home extends AppCompatActivity {
                     return;
                 }
 
-                if(!gpsCountry.equals(Input_Country) && !gpsState.equals(Input_State)){
+                if(!gpsCountry.equals(Input_Country) || !gpsState.equals(Input_State)){
                     Toast.makeText(Citizen_home.this,"Selected State and Gps location is not Same",Toast.LENGTH_LONG).show();
                     return;
                 }

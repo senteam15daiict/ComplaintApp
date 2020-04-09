@@ -144,8 +144,8 @@ public class Corporation_Profile extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                        String uid = firebaseUser.getUid();
 
-                        assert firebaseUser != null;
                         firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -155,8 +155,6 @@ public class Corporation_Profile extends AppCompatActivity {
                             }
                         });
 
-
-                        String uid = firebaseUser.getUid();
                         //Toast.makeText(citizen_home.this,key,Toast.LENGTH_LONG).show();
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Corporation").child(uid);
                         ref.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -166,14 +164,13 @@ public class Corporation_Profile extends AppCompatActivity {
                                     Toast.makeText(Corporation_Profile.this,"Account Deleted",Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(Corporation_Profile.this,MainActivity.class);
                                     startActivity(intent);
+                                    finish();
                                 }
                                 else{
                                     Toast.makeText(Corporation_Profile.this, Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
-
-
                     }
                 });
 
