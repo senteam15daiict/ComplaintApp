@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -52,7 +53,8 @@ public class Corporation_Profile extends AppCompatActivity {
     CircleImageView vCorporation_Profile_Image,vCorporation_Profile_Image_Selector;
     TextView vCorporation_User_Name_below_Image;
     FirebaseAuth fauth;
-    DatabaseReference databaseReference;
+    FirebaseUser firebaseUser;
+    DatabaseReference databaseReference,databaseReference1,databaseReference2;
     StorageReference storageReference;
     String Corporation_Id;
     ProgressDialog progressDialog;
@@ -73,7 +75,8 @@ public class Corporation_Profile extends AppCompatActivity {
         vCorporation_Profile_Image = (CircleImageView) findViewById(R.id.Corporation_Profile_Image);
         vCorporation_Profile_Image_Selector = (CircleImageView) findViewById(R.id.Corporation_Profile_Image_Selector);
         fauth = FirebaseAuth.getInstance();
-        Corporation_Id = fauth.getCurrentUser().getUid();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        Corporation_Id = Objects.requireNonNull(fauth.getCurrentUser()).getUid();
         progressDialog = new ProgressDialog(this);
         vCorporation_Available_Complaint_Types = (Spinner) findViewById(R.id.Corporation_Available_Complaint_Types);
         vCorporation_Not_Available_Complaint_Types = (Spinner) findViewById(R.id.Corporation_Not_Available_Complaint_Types);
@@ -96,7 +99,7 @@ public class Corporation_Profile extends AppCompatActivity {
         setSpinnersData();
 
         setSupportActionBar(vCorporation_Profile_Page_bar);
-        getSupportActionBar().setTitle("Profile");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Profile");
 
         bottomNavigationView.setSelectedItemId(R.id.Corporation_Profile);
 
@@ -106,11 +109,6 @@ public class Corporation_Profile extends AppCompatActivity {
                 switch(item.getItemId()){
                     case R.id.Corporation_View_complaint:
                         startActivity(new Intent(getApplicationContext(),Corporation_home.class));
-                        overridePendingTransition(0,0);
-                        return true;
-
-                    case R.id.Corporation_Notifications:
-                        startActivity(new Intent(getApplicationContext(),Corporation_Notification.class));
                         overridePendingTransition(0,0);
                         return true;
 
@@ -143,38 +141,75 @@ public class Corporation_Profile extends AppCompatActivity {
                 dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                        String uid = firebaseUser.getUid();
+                        progressDialog.setTitle("Deleting Account");
+                        progressDialog.setCanceledOnTouchOutside(false);
+                        progressDialog.show();
 
-                        firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        //Log.d("Corporation_Id = ",Corporation_Id);
+                        deleteComplaints();
+
+                        databaseReference = FirebaseDatabase.getInstance().getReference().child("Corporation").child(Corporation_Id);
+                        databaseReference.addValueEventListener(new ValueEventListener() {
                             @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(!task.isSuccessful()){
-                                    Toast.makeText(Corporation_Profile.this,"1 -- " + Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
+                            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){
+                                    String country = Objects.requireNonNull(dataSnapshot.child("location").child("Country").getValue()).toString();
+                                    String state = Objects.requireNonNull(dataSnapshot.child("location").child("State").getValue()).toString();
+                                    String district = Objects.requireNonNull(dataSnapshot.child("location").child("District").getValue()).toString();
+                                    String url = Objects.requireNonNull(dataSnapshot.child("Profile_Image_Url").getValue()).toString();
+
+                                    if(!url.equals("")){
+                                        deleteImage(url);
+                                    }
+
+                                    databaseReference = FirebaseDatabase.getInstance().getReference();
+                                    databaseReference.child("Corporation_Location").child(country).child(state).child(district).child(Corporation_Id)
+                                            .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                databaseReference = FirebaseDatabase.getInstance().getReference();
+                                                databaseReference.child("Corporation").child(Corporation_Id).removeValue()
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if(task.isSuccessful()){
+                                                                    firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                            if(task.isSuccessful()){
+                                                                                Toast.makeText(Corporation_Profile.this,"Deleted Succefully",Toast.LENGTH_SHORT).show();
+                                                                                startActivity(new Intent(Corporation_Profile.this,MainActivity.class));
+                                                                                finish();
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                }
+                                                                else{
+                                                                    Toast.makeText(Corporation_Profile.this, Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
+                                                                }
+                                                            }
+                                                        });
+                                            }
+                                            else{
+                                                Toast.makeText(Corporation_Profile.this, Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
                                 }
                             }
-                        });
 
-                        //Toast.makeText(citizen_home.this,key,Toast.LENGTH_LONG).show();
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Corporation").child(uid);
-                        ref.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()){
-                                    Toast.makeText(Corporation_Profile.this,"Account Deleted",Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(Corporation_Profile.this,MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                                else{
-                                    Toast.makeText(Corporation_Profile.this, Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
-                                }
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
                             }
                         });
+                        progressDialog.dismiss();
                     }
+
                 });
 
-                dialog.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -199,15 +234,19 @@ public class Corporation_Profile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(vCorporation_Not_Available_Complaint_Types != null && vCorporation_Not_Available_Complaint_Types.getSelectedItem() != null){
-                    Log.d("aqaq1","1");
                     Complaint_Type_Data d2 = (Complaint_Type_Data) vCorporation_Not_Available_Complaint_Types.getSelectedItem();
                     final String selectedType = d2.iconName;
                     databaseReference = FirebaseDatabase.getInstance().getReference();
-                    databaseReference.child("Corporation").child(Corporation_Id).child("Types").child(selectedType).setValue("1");
-                    setSpinnersData();
-                }
-                else{
-                    Log.d("wewe","11111");
+                    databaseReference.child("Corporation").child(Corporation_Id).child("Types").child(selectedType).setValue("1")
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        setSpinnersData();
+                                    }
+                                }
+                            });
+
                 }
 
             }
@@ -217,15 +256,138 @@ public class Corporation_Profile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(vCorporation_Available_Complaint_Types != null &&  vCorporation_Available_Complaint_Types.getSelectedItem() != null && available_Type_List.size() >= 1){
-                    Log.d("aqaq2","2");
                     Complaint_Type_Data d1 = (Complaint_Type_Data) vCorporation_Available_Complaint_Types.getSelectedItem();
                     String selectedtype = d1.iconName;
                     databaseReference = FirebaseDatabase.getInstance().getReference();
-                    databaseReference.child("Corporation").child(Corporation_Id).child("Types").child(selectedtype).setValue("0");
-                    setSpinnersData();
+                    databaseReference.child("Corporation").child(Corporation_Id).child("Types").child(selectedtype).setValue("0")
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        setSpinnersData();
+                                    }
+                                }
+                            });
                 }
-                else{
-                    Log.d("wewe","11111");
+            }
+        });
+    }
+
+    private void deleteComplaints() {
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("Complaints_Receiver_Pending").child(Corporation_Id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    for(final DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                        String Citizen_Id = dataSnapshot1.getKey();
+                        databaseReference1 = FirebaseDatabase.getInstance().getReference();
+                        assert Citizen_Id != null;
+                        databaseReference1.child("Complaints_Sender_Pending").child(Citizen_Id).child(Corporation_Id).removeValue();
+                        for(DataSnapshot dataSnapshot2:dataSnapshot1.getChildren()){
+                            String url = Objects.requireNonNull(dataSnapshot2.child("Image_Url").getValue()).toString();
+                            if(!url.equals("")){
+                                deleteImage(url);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        databaseReference.child("Complaints_Receiver_Pending").child(Corporation_Id).removeValue();
+
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("Complaints_Receiver_On_The_Job").child(Corporation_Id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    for(final DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                        String Citizen_Id = dataSnapshot1.getKey();
+                        databaseReference1 = FirebaseDatabase.getInstance().getReference();
+                        assert Citizen_Id != null;
+                        databaseReference1.child("Complaints_Sender_On_The_Job").child(Citizen_Id).child(Corporation_Id).removeValue();
+                        for(DataSnapshot dataSnapshot2:dataSnapshot1.getChildren()){
+                            String url = Objects.requireNonNull(dataSnapshot2.child("Image_Url").getValue()).toString();
+                            if(!url.equals("")){
+                                deleteImage(url);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        databaseReference.child("Complaints_Receiver_On_The_Job").child(Corporation_Id).removeValue();
+
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("Complaints_Receiver_Resolved").child(Corporation_Id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    for(final DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                        String Citizen_Id = dataSnapshot1.getKey();
+                        databaseReference1 = FirebaseDatabase.getInstance().getReference();
+                        assert Citizen_Id != null;
+                        databaseReference1.child("Complaints_Sender_Resolved").child(Citizen_Id).child(Corporation_Id).removeValue();
+                        for(DataSnapshot dataSnapshot2:dataSnapshot1.getChildren()){
+                            String url = Objects.requireNonNull(dataSnapshot2.child("Image_Url").getValue()).toString();
+                            if(!url.equals("")){
+                                deleteImage(url);
+                            }
+
+                            String complaint_Id = dataSnapshot2.getKey();
+                            databaseReference2 = FirebaseDatabase.getInstance().getReference();
+                            assert complaint_Id != null;
+                            databaseReference2.child("Complaint_Responses").child(Corporation_Id).child(Citizen_Id).child(complaint_Id)
+                                    .addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            if(dataSnapshot.exists()){
+                                                String url1 = Objects.requireNonNull(dataSnapshot.child("Image_Url").getValue()).toString();
+                                                if(!url1.equals("")){
+                                                    deleteImage(url1);
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+                            databaseReference2.child("Complaint_Responses").child(Corporation_Id).removeValue();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        databaseReference.child("Complaints_Receiver_Resolved").child(Corporation_Id).removeValue();
+    }
+
+    private void deleteImage(String url) {
+        storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(url);
+        storageReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Log.d("Image deleted","3000");
                 }
             }
         });
@@ -237,8 +399,8 @@ public class Corporation_Profile extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
-                    String userName = dataSnapshot.child("User_name").getValue().toString();
-                    String url = dataSnapshot.child("Profile_Image_Url").getValue().toString();
+                    String userName = Objects.requireNonNull(dataSnapshot.child("User_name").getValue()).toString();
+                    String url = Objects.requireNonNull(dataSnapshot.child("Profile_Image_Url").getValue()).toString();
 
                     vCorporation_User_Name_below_Image.setText(userName);
                     if(!url.equals("")){
@@ -255,10 +417,8 @@ public class Corporation_Profile extends AppCompatActivity {
     }
 
     private void setSpinnersData() {
-        available_Type_List.clear();
-        not_available_Type_List.clear();
-        Log.d("rrrrr","1");
-        Log.d("rrrrr","2");
+        availableSpinnerAdapter.clear();
+        notavailableSpinnerAdapter.clear();
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("Corporation").child(Corporation_Id).addValueEventListener(new ValueEventListener() {
             @Override
@@ -266,32 +426,19 @@ public class Corporation_Profile extends AppCompatActivity {
                 if(dataSnapshot.exists()){
                     for(DataSnapshot dataSnapshot1 : dataSnapshot.child("Types").getChildren()){
                         String typeName =  dataSnapshot1.getKey();
-                        String available = dataSnapshot1.getValue().toString();
+                        String available = Objects.requireNonNull(dataSnapshot1.getValue()).toString();
                         int x1 =  getResId("ic_" +typeName,R.drawable.class);
 
                         if(available.equals("1")){
-                            if(x1 != -1){
-                                available_Type_List.add(new Complaint_Type_Data(x1,typeName));
-                            }
-                            else {
-                                Log.d(typeName,available + " - 1");
-                            }
+                            availableSpinnerAdapter.add(new Complaint_Type_Data(x1,typeName));
                         }
                         else{
-                            if(x1 != -1) {
-                                not_available_Type_List.add(new Complaint_Type_Data(x1, typeName));
-                            }
-                            else {
-                                Log.d(typeName,available + " - 2");
-                            }
+                            notavailableSpinnerAdapter.add(new Complaint_Type_Data(x1, typeName));
                         }
                     }
-                    //availableSpinnerAdapter.Spinner_Datas.clear();
-                    //notavailableSpinnerAdapter.Spinner_Datas.clear();
                     availableSpinnerAdapter.notifyDataSetChanged();
                     notavailableSpinnerAdapter.notifyDataSetChanged();
                 }
-
             }
 
             @Override
@@ -299,7 +446,6 @@ public class Corporation_Profile extends AppCompatActivity {
 
             }
         });
-        Log.d("rrrrr","3");
     }
 
     @Override
@@ -322,6 +468,7 @@ public class Corporation_Profile extends AppCompatActivity {
 
                 storageReference = FirebaseStorage.getInstance().getReference().child("Corporation_Profile_Images");
                 databaseReference = FirebaseDatabase.getInstance().getReference();
+                assert result != null;
                 Uri resultUri = result.getUri();
 
                 final StorageReference filepath = storageReference.child(Corporation_Id + ".jpg");
@@ -329,7 +476,6 @@ public class Corporation_Profile extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         if(task.isSuccessful()) {
-                            Toast.makeText(Corporation_Profile.this,"Succefully Uploded",Toast.LENGTH_SHORT).show();
 
                             final Task<Uri> DownloadUrl = filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
@@ -341,11 +487,12 @@ public class Corporation_Profile extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if(task.isSuccessful()){
-                                                        Toast.makeText(Corporation_Profile.this,"Saved In Database Too......",Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(Corporation_Profile.this,"Succefully Uploded",Toast.LENGTH_SHORT).show();
+                                                        //Toast.makeText(Corporation_Profile.this,"Saved In Database Too......",Toast.LENGTH_LONG).show();
                                                         progressDialog.dismiss();
                                                     }
                                                     else{
-                                                        Toast.makeText(Corporation_Profile.this,"Error! "+task.getException().toString(),Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(Corporation_Profile.this,"Error! "+ Objects.requireNonNull(task.getException()).toString(),Toast.LENGTH_LONG).show();
                                                         progressDialog.dismiss();
                                                     }
 

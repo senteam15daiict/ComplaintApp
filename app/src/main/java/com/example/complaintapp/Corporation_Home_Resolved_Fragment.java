@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -52,7 +53,7 @@ public class Corporation_Home_Resolved_Fragment extends Fragment {
         //vCorporation_Home_Resolved_Recycler_View.setLayoutManager(new LinearLayoutManager(getContext()));
 
         fauth = FirebaseAuth.getInstance();
-        Corporation_Id = fauth.getCurrentUser().getUid();
+        Corporation_Id = Objects.requireNonNull(fauth.getCurrentUser()).getUid();
 
         complaint_adapter = new Complaint_Adapter(Complaint_List,"Resolved","Corporation");
         linearLayoutManager = new LinearLayoutManager(getContext());

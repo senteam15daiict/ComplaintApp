@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.complaintapp">
 
     <!--
@@ -35,7 +36,7 @@
 
         <activity
             android:name=".MapsActivity2"
-            android:label="@string/title_activity_maps2"></activity>
+            android:label="@string/title_activity_maps2" />
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
@@ -52,14 +53,12 @@
         <activity android:name=".Complaint_Resolved_Full" />
         <activity android:name=".Complaint_Pending_Full" />
         <activity android:name=".Corporation_Profile" />
-        <activity android:name=".Corporation_Notification" />
         <activity android:name=".Corporation_home" />
         <activity android:name=".Login_Corporation" />
         <activity android:name=".Sign_Up_Corporation" />
         <activity android:name=".Sign_Up" />
         <activity android:name=".Login" />
         <activity android:name=".Profile" />
-        <activity android:name=".Notification" />
         <activity android:name=".Near_by" />
         <activity android:name=".History" />
         <activity android:name=".Citizen_home" />
@@ -73,6 +72,25 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
+
+
+
+        <service android:name="notification.MyFirebaseInstanceIdService"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service android:name="notification.MyFirebaseMessaging"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

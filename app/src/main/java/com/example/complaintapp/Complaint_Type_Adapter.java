@@ -42,8 +42,8 @@ public class Complaint_Type_Adapter extends ArrayAdapter<Complaint_Type_Data> {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         assert layoutInflater != null;
         View customView = layoutInflater.inflate(R.layout.complaint_type_layout,parent,false);
-        TextView Complaint_Type_Title = (TextView) customView.findViewById(R.id.Complaint_Type_Title);
-        CircleImageView  Complaint_Type_Image = (CircleImageView) customView.findViewById(R.id.Complaint_Type_Image);
+        TextView Complaint_Type_Title = (TextView) customView.findViewById(R.id.Title_Text);
+        CircleImageView  Complaint_Type_Image = (CircleImageView) customView.findViewById(R.id.Title_Image);
 
         Complaint_Type_Title.setText(Spinner_Datas.get(position).iconName);
         Complaint_Type_Image.setImageResource(Spinner_Datas.get(position).icon);

@@ -63,25 +63,27 @@
                     android:id="@+id/Logout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/Usen_Name"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
                     android:text="Logout"
                     android:textAllCaps="false"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/custom_button_0"/>
 
                 <Button
                     android:id="@+id/Delete_Account"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/Logout"
                     android:layout_marginStart="2dp"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
                     android:text="Delete Account"
                     android:textAllCaps="false"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/custom_button_0"/>
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

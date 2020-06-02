@@ -25,6 +25,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 public class Complaint_On_The_Job_Full extends AppCompatActivity {
 
@@ -53,12 +54,11 @@ public class Complaint_On_The_Job_Full extends AppCompatActivity {
         vChange_To_Resolved = (Button) findViewById(R.id.Change_To_Resolved);
 
         final Bundle bundle = getIntent().getExtras();
-        //Toast.makeText(Complaint_Pending_Full.this,"hii",Toast.LENGTH_LONG).show();
         assert bundle != null;
-        final String Citizen_User_Id = bundle.get("Citizen_User_Id").toString();
-        final String Corporation_User_Id = bundle.get("Corporation_User_Id").toString();
-        final String Complaint_Id = bundle.get("Complaint_Id").toString();
-        final String User_Type = bundle.get("User_Type").toString();
+        final String Citizen_User_Id = Objects.requireNonNull(bundle.get("Citizen_User_Id")).toString();
+        final String Corporation_User_Id = Objects.requireNonNull(bundle.get("Corporation_User_Id")).toString();
+        final String Complaint_Id = Objects.requireNonNull(bundle.get("Complaint_Id")).toString();
+        final String User_Type = Objects.requireNonNull(bundle.get("User_Type")).toString();
         storageReference = FirebaseStorage.getInstance().getReference();
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -67,10 +67,9 @@ public class Complaint_On_The_Job_Full extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.exists()){
-                            String url = dataSnapshot.child("Profile_Image_Url").toString();
+                            String url = Objects.requireNonNull(dataSnapshot.child("Profile_Image_Url").getValue()).toString();
                             if(!url.equals("")){
                                 Picasso.get().load(url).into(vComplaint_On_The_Job_Full_Profile_Image);
-                                //Toast.makeText(Complaint_Pending_Full.this,"hello",Toast.LENGTH_LONG).show();
                             }
                         }
                     }
@@ -124,8 +123,8 @@ public class Complaint_On_The_Job_Full extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()){
-                                    lat[0] = dataSnapshot.child("lat").getValue().toString();
-                                    lon[0] = dataSnapshot.child("lon").getValue().toString();
+                                    lat[0] = Objects.requireNonNull(dataSnapshot.child("lat").getValue()).toString();
+                                    lon[0] = Objects.requireNonNull(dataSnapshot.child("lon").getValue()).toString();
 
                                     vComplaint_On_The_Job_Full_Address.setText(lat[0] + "_" + lon[0]);
                                 }
@@ -154,8 +153,6 @@ public class Complaint_On_The_Job_Full extends AppCompatActivity {
                         }
                     }
                 }
-                //vComplaint_Pending_Full_Address.setText(address);
-                //Toast.makeText(Complaint_Pending_Full.this,lat[0] + " -- " + lon[0],Toast.LENGTH_LONG).show();
 
                 if(!lon[0].equals("")){
                     Intent intent = new Intent(Complaint_On_The_Job_Full.this,MapsActivity2.class);
@@ -163,7 +160,6 @@ public class Complaint_On_The_Job_Full extends AppCompatActivity {
                     b1.putString("Lat", lat[0]);
                     b1.putString("Lon", lon[0]);
                     intent.putExtras(b1);
-                    //Toast.makeText(Complaint_Pending_Full.this,address,Toast.LENGTH_LONG).show();
                     startActivity(intent);
                 }
 
@@ -184,6 +180,7 @@ public class Complaint_On_The_Job_Full extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if(dataSnapshot.exists()){
                                         Complaint c1 = dataSnapshot.getValue(Complaint.class);
+                                        assert c1 != null;
                                         c1.Status = "Pending";
                                         databaseReference = FirebaseDatabase.getInstance().getReference();
                                         databaseReference.child("Complaints_Sender_Pending").child(Citizen_User_Id).child(Corporation_User_Id)
@@ -197,17 +194,7 @@ public class Complaint_On_The_Job_Full extends AppCompatActivity {
                                 }
                             });
                     databaseReference.child("Complaints_Sender_On_The_Job").child(Citizen_User_Id).child(Corporation_User_Id).child(Complaint_Id)
-                            .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                //Toast.makeText(Complaint_Pending_Full.this,"Removed from Complaint_Sender_Pending",Toast.LENGTH_LONG).show();
-                            }
-                            else{
-                                //Toast.makeText(Complaint_Pending_Full.this,"Error! " + task.getException().toString(),Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+                            .removeValue();
                     databaseReference = FirebaseDatabase.getInstance().getReference();
                     databaseReference.child("Complaints_Receiver_On_The_Job").child(Corporation_User_Id).child(Citizen_User_Id).child(Complaint_Id)
                             .addValueEventListener(new ValueEventListener() {
@@ -215,11 +202,11 @@ public class Complaint_On_The_Job_Full extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if(dataSnapshot.exists()){
                                         Complaint c1 = dataSnapshot.getValue(Complaint.class);
+                                        assert c1 != null;
                                         c1.Status = "Pending";
                                         databaseReference = FirebaseDatabase.getInstance().getReference();
                                         databaseReference.child("Complaints_Receiver_Pending").child(Corporation_User_Id).child(Citizen_User_Id)
                                                 .child(Complaint_Id).setValue(c1);
-                                        Toast.makeText(Complaint_On_The_Job_Full.this,"added succefully",Toast.LENGTH_LONG).show();
                                     }
                                 }
 
@@ -229,17 +216,8 @@ public class Complaint_On_The_Job_Full extends AppCompatActivity {
                                 }
                             });
                     databaseReference.child("Complaints_Receiver_On_The_Job").child(Corporation_User_Id).child(Citizen_User_Id).child(Complaint_Id)
-                            .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                //Toast.makeText(Complaint_Pending_Full.this,"Removed from Complaint_Receiver_Pending",Toast.LENGTH_LONG).show();
-                            }
-                            else{
-                                //Toast.makeText(Complaint_Pending_Full.this,"Error! " + task.getException().toString(),Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+                            .removeValue();
+                    Toast.makeText(Complaint_On_The_Job_Full.this,"added succefully",Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(Complaint_On_The_Job_Full.this,Complaint_Pending_Full.class);
                     intent.putExtras(bundle);
                     startActivity(intent);

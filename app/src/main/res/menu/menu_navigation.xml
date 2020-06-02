@@ -16,11 +16,6 @@
         android:icon="@drawable/ic_near_by"/>
 
     <item
-        android:id="@+id/Notifications"
-        android:title="Notifications"
-        android:icon="@drawable/ic_notifications"/>
-
-    <item
         android:id="@+id/Profile"
         android:title="Profile"
         android:icon="@drawable/ic_profile"/>

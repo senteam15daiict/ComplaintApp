@@ -10,27 +10,31 @@
         android:id="@+id/Complaint_Pending_Full_bar"
         layout="@layout/app_bar_layout" />
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/Complaint_Image"
         android:layout_below="@+id/Complaint_Pending_Full_bar">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:src="@drawable/ic_default_complaint_image"
+            android:id="@+id/Complaint_Pending_Full_Complaint_Image"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/Complaint_Image">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="350dp"
-                    android:src="@drawable/ic_default_complaint_image"
-                    android:id="@+id/Complaint_Pending_Full_Complaint_Image"/>
-
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/First_Bar"
@@ -42,7 +46,7 @@
                     android:id="@+id/Complaint_Pending_Full_Profile_Image"
                     android:layout_width="80dp"
                     android:layout_height="60dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:src="@drawable/default_profile_image" />
 
@@ -61,18 +65,18 @@
                             android:id="@+id/Complaint_Pending_Full_User_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="5dp"
                             android:text="user_name"
                             android:textColor="#000000"
-                            android:textSize="20dp"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/Complaint_Pending_Full_Time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="5dp"
                             android:text="last seen"
                             android:textColor="#000000"
@@ -89,7 +93,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="right"
-                            android:src="@drawable/ic_pending" />
+                            android:src="@drawable/ic_pending"
+                            tools:ignore="RtlHardcoded" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -112,18 +117,18 @@
                         android:id="@+id/Complaint_Pending_Full_Complaint_Type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
                         android:layout_marginTop="15dp"
                         android:text="Complaint Type"
                         android:textColor="#000000"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/Complaint_Pending_Full_Address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:text="Address"
                         android:textColor="#000000" />
@@ -152,7 +157,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:text="Description"
                     android:textColor="#000000"
                     android:textSize="24sp"
@@ -162,7 +167,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:text="Sample dedscription of the Complaints"
                     android:textColor="#000000"
@@ -182,7 +187,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
@@ -193,7 +198,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:src="@drawable/ic_agree"
                         android:id="@+id/Complaint_Pending_Full_Agree"/>
 
@@ -201,19 +206,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:text="Agree"
                         android:textColor="#000000"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:text="0"
                         android:textColor="#000000"
-                        android:textSize="18dp"
+                        android:textSize="18sp"
                         android:id="@+id/Complaint_Pending_Full_Agree_Count"/>
 
                 </LinearLayout>
@@ -221,7 +226,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
@@ -238,19 +243,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:text="Disagree"
                         android:textColor="#000000"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:text="0"
                         android:textColor="#000000"
-                        android:textSize="18dp"
+                        android:textSize="18sp"
                         android:id="@+id/Complaint_Pending_Full_Disagree_Count"/>
 
                 </LinearLayout>
@@ -266,9 +271,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Start Solving"
+                    android:textSize="20sp"
+                    android:padding="10dp"
                     android:id="@+id/Change_To_On_The_Job"
                     android:layout_centerInParent="true"
-                    android:textAllCaps="false"/>
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/custom_button_0"/>
 
             </RelativeLayout>
 

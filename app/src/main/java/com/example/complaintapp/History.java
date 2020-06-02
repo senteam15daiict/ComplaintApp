@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Objects;
+
 import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 
 public class History extends AppCompatActivity {
@@ -33,7 +35,7 @@ public class History extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         vCitizen_History_Page_Bar = (Toolbar) findViewById(R.id.Citizen_History_Page_Bar);
         setSupportActionBar(vCitizen_History_Page_Bar);
-        getSupportActionBar().setTitle("History");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("History");
 
         vCitizen_History_View_Pager = (ViewPager) findViewById(R.id.Citizen_History_View_Pager);
         vCitizen_History_Page_Tab = (TabLayout) findViewById(R.id.Citizen_History_Page_Tab);
@@ -61,11 +63,6 @@ public class History extends AppCompatActivity {
 
                     case R.id.Near_by:
                         startActivity(new Intent(getApplicationContext(),Near_by.class));
-                        overridePendingTransition(0,0);
-                        return true;
-
-                    case R.id.Notifications:
-                        startActivity(new Intent(getApplicationContext(),Notification.class));
                         overridePendingTransition(0,0);
                         return true;
 

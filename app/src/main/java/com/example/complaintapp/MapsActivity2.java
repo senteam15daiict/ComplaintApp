@@ -11,9 +11,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.Objects;
+
 public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
     LatLng latLng;
 
     @Override
@@ -23,12 +24,13 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
         final Bundle b1 = getIntent().getExtras();
         assert b1 != null;
-        final String l1 = b1.get("Lat").toString();
-        final String l2 = b1.get("Lon").toString();
+        final String l1 = Objects.requireNonNull(b1.get("Lat")).toString();
+        final String l2 = Objects.requireNonNull(b1.get("Lon")).toString();
         double lat = Double.parseDouble(l1);
         double lon = Double.parseDouble(l2);
 
@@ -47,11 +49,10 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        mMap.addMarker(new MarkerOptions().position(latLng).title("Complaint location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        googleMap.addMarker(new MarkerOptions().position(latLng).title("Complaint location"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 
     @Override

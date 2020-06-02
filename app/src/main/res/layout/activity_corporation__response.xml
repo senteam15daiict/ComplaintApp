@@ -6,51 +6,96 @@
     android:layout_height="match_parent"
     tools:context=".Corporation_Response">
 
+    <include
+        android:id="@+id/Corporation_Response_Page_bar"
+        layout="@layout/app_bar_layout" />
+
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Description"
         android:id="@+id/Response_Description"
+        android:layout_below="@+id/Corporation_Response_Page_bar"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="5dp"
         />
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/Add_Post_Cancel_layout"
+        android:orientation="horizontal"
         android:layout_below="@+id/Response_Description"
-        android:id="@+id/Add_Response_Image"
-        android:text="Add Image"
-        android:textAllCaps="false"
-        />
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="10dp">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Post"
-        android:layout_below="@+id/Response_Description"
-        android:layout_toRightOf="@+id/Add_Response_Image"
-        android:id="@+id/Post_Response"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/Add_Response_Image"
+            android:text="Add Image"
+            android:textSize="18sp"
+            android:textAllCaps="false"
+            android:layout_marginHorizontal="2dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/custom_button_0"
+            />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:id="@+id/Back_To_On_The_Job"
-        android:layout_toRightOf="@+id/Post_Response"
-        android:layout_below="@+id/Response_Description"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Post"
+            android:id="@+id/Post_Response"
+            android:textSize="18sp"
+            android:layout_marginHorizontal="2dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/custom_button_0"/>
 
-    <Button
-        android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/Back_To_On_The_Job"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="2dp"
+            android:textSize="18sp"
+            android:text="Cancel"
+            android:textColor="#ffffff"
+            android:background="@drawable/custom_button_0"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Continue Without Response"
-        android:id="@+id/Continue_Without_Response"
-        android:layout_below="@+id/Add_Response_Image"
-        />
+        android:id="@+id/Continue_Without_Response_Layout"
+        android:layout_below="@+id/Add_Post_Cancel_layout"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Continue Without Response"
+            android:id="@+id/Continue_Without_Response"
+            android:layout_centerInParent="true"
+            android:textSize="18sp"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:background="@drawable/custom_button_0"
+            />
+
+    </RelativeLayout>
+
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:layout_below="@+id/Continue_Without_Response"
+        android:layout_below="@+id/Continue_Without_Response_Layout"
         android:id="@+id/Response_Image"
+        android:layout_marginTop="10dp"
         android:background="#000000"/>
 
 </RelativeLayout>

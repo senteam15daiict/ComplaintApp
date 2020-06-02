@@ -44,11 +44,9 @@ public class Citizen_History_Pending_Fragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         Pending_Complaints_View = inflater.inflate(R.layout.fragment_citizen__history__pending_, container, false);
 
         vCitizen_History_Pending_Recycler_View = (RecyclerView) Pending_Complaints_View.findViewById(R.id.Citizen_History_Pending_Recycler_View);

@@ -68,7 +68,9 @@
                 android:padding="5dp"
                 android:text="Sign Up"
                 android:textAllCaps="false"
-                android:textSize="24dp" />
+                android:textSize="24dp"
+                android:textColor="#ffffff"
+                android:background="@drawable/custom_button_0"/>
 
             <TextView
                 android:id="@+id/Login_Screen"

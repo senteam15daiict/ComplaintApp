@@ -6,11 +6,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +29,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
@@ -42,6 +45,7 @@ public class Login extends AppCompatActivity {
     Toolbar vCitizen_Login_Page_Bar;
     DatabaseReference databaseReference;
 
+    @SuppressLint("CutPasteId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,14 +60,14 @@ public class Login extends AppCompatActivity {
         fauth = FirebaseAuth.getInstance();
         vCitizen_Login_Page_Bar = (Toolbar) findViewById(R.id.Citizen_Login_Page_Bar);
         setSupportActionBar(vCitizen_Login_Page_Bar);
-        getSupportActionBar().setTitle("Citizen Login");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Citizen Login");
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         vLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = vEmail.getText().toString().trim();
-                String password = vPassword.getText().toString().trim();
+                final String email = vEmail.getText().toString().trim();
+                final String password = vPassword.getText().toString().trim();
 
                 if(TextUtils.isEmpty(email)){
                     vEmail.setError("Email is required");
@@ -80,59 +84,52 @@ public class Login extends AppCompatActivity {
                     return;
                 }
 
-                fauth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                databaseReference = FirebaseDatabase.getInstance().getReference().child("Citizen");
+                Query query = databaseReference.orderByChild("Email").equalTo(email);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            final String User_Id;
-                            User_Id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                            databaseReference.child("Citizen").addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
-
-                                        String id = dataSnapshot1.getKey();
-                                        if(User_Id.equals(id)){
-                                            if(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).isEmailVerified())
-                                            {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                            if(password.equals(Objects.requireNonNull(dataSnapshot1.child("Password").getValue()).toString())){
+                                fauth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if(task.isSuccessful()){
+                                            if(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).isEmailVerified()){
                                                 Toast.makeText(Login.this,"Login Succesfully",Toast.LENGTH_SHORT).show();
                                                 startActivity(new Intent(Login.this,Citizen_home.class));
+                                                finish();
                                             }
-                                            else
-                                            {
+                                            else{
                                                 FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if(task.isSuccessful()){
-                                                            Toast.makeText(Login.this,"Verification mail sended Successfully",Toast.LENGTH_SHORT).show();
+                                                            FirebaseAuth.getInstance().signOut();
+                                                            Toast.makeText(Login.this,"Verification Mail Sended Succesfully",Toast.LENGTH_SHORT).show();
                                                         }
                                                         else{
-                                                            Toast.makeText(Login.this,"Error! " + Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(Login.this,"Error! " + Objects.requireNonNull(task.getException()).toString(),Toast.LENGTH_LONG).show();
                                                         }
-
                                                     }
                                                 });
                                             }
                                         }
                                         else{
-                                            Toast.makeText(Login.this,"You are not Registered as Citizen! Please Register first",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(Login.this,"Error! " + Objects.requireNonNull(task.getException()).toString(),Toast.LENGTH_LONG).show();
                                         }
                                     }
-                                }
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-
+                                });
+                            }
                         }
-                        else{
-                            Toast.makeText(Login.this,"Error! " + Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_SHORT).show();
-                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
                 });
+
             }
         });
 

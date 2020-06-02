@@ -12,7 +12,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/Complaint_Pending_Full_bar">
 
         <LinearLayout
@@ -42,7 +42,7 @@
                     android:id="@+id/Complaint_Resolved_Full_Profile_Image"
                     android:layout_width="80dp"
                     android:layout_height="60dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:src="@drawable/default_profile_image" />
 
@@ -61,18 +61,18 @@
                             android:id="@+id/Complaint_Resolved_Full_User_Name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="5dp"
                             android:text="user_name"
                             android:textColor="#000000"
-                            android:textSize="20dp"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/Complaint_Resolved_Full_Time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="5dp"
                             android:text="last seen"
                             android:textColor="#000000"
@@ -88,7 +88,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_gravity="right"
+                            android:layout_gravity="end"
                             android:src="@drawable/ic_resolved" />
                     </LinearLayout>
                 </LinearLayout>
@@ -100,7 +100,6 @@
                 android:id="@+id/Second_Bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/First_Bar"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -113,18 +112,18 @@
                         android:id="@+id/Complaint_Resolved_Full_Complaint_Type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
                         android:layout_marginTop="15dp"
                         android:text="Complaint Type"
                         android:textColor="#000000"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/Complaint_Resolved_Full_Address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:text="Address"
                         android:textColor="#000000" />
@@ -153,7 +152,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:text="Description"
                     android:textColor="#000000"
                     android:textSize="24sp"
@@ -176,14 +175,13 @@
                 android:id="@+id/Third_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/Second_Bar"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="0.5"
@@ -198,10 +196,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:text="feedback"
                         android:textColor="#000000"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
@@ -214,7 +212,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        tools:ignore="NestedWeights">
 
                         <ImageView
                             android:id="@+id/Complaint_Resolved_Full_Feedback_Best_Image"
@@ -226,10 +225,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:text="0"
                             android:textColor="#000000"
-                            android:textSize="18dp"
+                            android:textSize="18sp"
                             android:id="@+id/Complaint_Resolved_Full_Feedback_Best_Count"/>
 
                     </LinearLayout>
@@ -250,10 +249,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:text="0"
                             android:textColor="#000000"
-                            android:textSize="18dp"
+                            android:textSize="18sp"
                             android:id="@+id/Complaint_Resolved_Full_Feedback_Normal_Count"/>
 
                     </LinearLayout>
@@ -274,10 +273,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:text="0"
                             android:textColor="#000000"
-                            android:textSize="18dp"
+                            android:textSize="18sp"
                             android:id="@+id/Complaint_Resolved_Full_Feedback_Worst_Count"/>
 
                     </LinearLayout>
@@ -304,7 +303,7 @@
                     android:layout_gravity="center"
                     android:text="Response"
                     android:textColor="#000000"
-                    android:textSize="25dp"
+                    android:textSize="25sp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -329,7 +328,7 @@
                         android:id="@+id/Complaint_Resolved_Full_Corporation_Profile_Image"
                         android:layout_width="80dp"
                         android:layout_height="60dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
                         android:src="@drawable/default_profile_image" />
 
@@ -348,18 +347,18 @@
                                 android:id="@+id/Complaint_Resolved_Full_Corporation_User_Name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
                                 android:layout_marginTop="5dp"
                                 android:text="user_name"
                                 android:textColor="#000000"
-                                android:textSize="20dp"
+                                android:textSize="20sp"
                                 android:textStyle="bold" />
 
                             <TextView
                                 android:id="@+id/Complaint_Resolved_Full_Corporation_Time"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
                                 android:layout_marginTop="5dp"
                                 android:text="last seen"
                                 android:textColor="#000000"
@@ -378,22 +377,22 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:background="#000000"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/Complaint_Resolved_Full_Corporation_Response_Image"/>
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Thanks for letting Us know About The Problem"
                     android:textColor="#000000"
                     android:textSize="18sp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:id="@+id/Complaint_Resolved_Full_Corporation_Response_Description"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:background="#000000"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/Complaint_Resolved_Full_Corporation_Response_Image"/>
 
             </LinearLayout>
         </LinearLayout>

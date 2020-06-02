@@ -70,58 +70,99 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select Complaint Type:-"
-                android:textColor="#000000"
-                android:textStyle="bold"
                 android:layout_marginTop="10dp"
-                android:textSize="18dp"/>
+                android:text="Select Corporation:-"
+                android:textColor="#000000"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
             <Spinner
+                android:id="@+id/Citizen_Home_Corporation_List"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Select Complaint Type:-"
+                android:textColor="#000000"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <Spinner
                 android:id="@+id/Citizen_Home_Type_Spinner"
-                android:layout_marginTop="5dp"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                android:layout_marginHorizontal="5dp">
 
                 <Button
                     android:id="@+id/Citizen_Location"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_button_0"
                     android:text="GPS"
-                    android:textSize="20dp" />
+                    android:textColor="#ffffff"
+                    android:textSize="20sp"
+                    android:layout_marginHorizontal="2dp"/>
 
                 <Button
                     android:id="@+id/Complaint_Image_Select_Button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Add Image" />
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_button_0"
+                    android:text="Add Image"
+                    android:textColor="#ffffff"
+                    android:layout_marginHorizontal="2dp"/>
 
                 <Button
-                    android:layout_width="wrap_content"
+                    android:id="@+id/Remove_Image"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_button_0"
                     android:text="Remove Image"
                     android:textAllCaps="false"
-                    android:id="@+id/Remove_Image"/>
+                    android:textColor="#ffffff"
+                    android:layout_marginHorizontal="2dp"/>
 
             </LinearLayout>
 
             <TextView
+                android:id="@+id/Gps_Address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="gps address"
-                android:id="@+id/Gps_Address"
-                android:textSize="18dp"/>
-            <Button
-                android:id="@+id/Complaint_Submit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Submit"
-                android:textSize="20dp" />
+                android:textSize="18sp"
+                android:layout_marginTop="10dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/Complaint_Submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_button_0"
+                    android:text="Submit"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp"
+                    android:layout_centerInParent="true"
+                    android:textAllCaps="false"
+                    android:padding="5dp"/>
+
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/Complaint_Image_View"
@@ -129,6 +170,7 @@
                 android:layout_height="500dp"
                 android:layout_marginTop="10dp"
                 android:background="#000000" />
+
         </LinearLayout>
     </ScrollView>
 

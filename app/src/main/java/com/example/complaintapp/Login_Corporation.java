@@ -29,6 +29,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class Login_Corporation extends AppCompatActivity {
 
     EditText vCorporation_Login_Email,vCorporation_Login_Password,vCorporation_Login_Security_Key;
@@ -53,7 +55,7 @@ public class Login_Corporation extends AppCompatActivity {
         fauth = FirebaseAuth.getInstance();
         vCorporation_Login_Page_bar = (Toolbar) findViewById(R.id.Corporation_Login_Page_bar);
         setSupportActionBar(vCorporation_Login_Page_bar);
-        getSupportActionBar().setTitle("Corporation Login");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Corporation Login");
 
         vCorporation_Login_Button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,8 +72,9 @@ public class Login_Corporation extends AppCompatActivity {
                         if(dataSnapshot.exists()){
                             for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 //Corporation c1 = new Corporation();
-                                String c1Password = snapshot.child("Password").getValue().toString();
-                                String c1Security_Key = snapshot.child("Security_Key").getValue().toString();
+
+                                String c1Password = Objects.requireNonNull(snapshot.child("Password").getValue()).toString();
+                                String c1Security_Key = Objects.requireNonNull(snapshot.child("Security_Key").getValue()).toString();
                                 Log.d(c1Password,c1Security_Key);
                                 //Toast.makeText(Login_Corporation.this,  c1Password + " security key = " + c1Security_Key, Toast.LENGTH_LONG).show();
                                 if (c1Password.equals(password) && c1Security_Key.equals(security_key)) {
@@ -80,8 +83,25 @@ public class Login_Corporation extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if (task.isSuccessful()) {
-                                                startActivity(new Intent(Login_Corporation.this, Corporation_home.class));
-                                                finish();
+                                                if(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).isEmailVerified()){
+                                                    startActivity(new Intent(Login_Corporation.this, Corporation_home.class));
+                                                    finish();
+                                                }
+                                                else{
+                                                    FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if(task.isSuccessful()){
+                                                                Toast.makeText(Login_Corporation.this,"Verification Mail sended Succesfully",Toast.LENGTH_SHORT).show();
+                                                                FirebaseAuth.getInstance().signOut();
+                                                            }
+                                                            else{
+                                                                Toast.makeText(Login_Corporation.this,"Error! " + Objects.requireNonNull(task.getException()).toString(),Toast.LENGTH_LONG).show();
+                                                            }
+                                                        }
+                                                    });
+                                                }
+
                                             } else {
                                                 Toast.makeText(Login_Corporation.this, "Error! " + task.getException(), Toast.LENGTH_LONG).show();
                                             }

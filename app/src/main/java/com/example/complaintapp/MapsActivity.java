@@ -59,7 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
+        LatLng sydney = new LatLng(23.033863, 72.585022);
         latLng = sydney;
         mMap.addMarker(new MarkerOptions()
                 .title("Complaint Location")
@@ -69,13 +69,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(Marker marker) {
-                Log.d("Marker Start","lat = " + marker.getPosition().latitude + "Long  = " + marker.getPosition().longitude);
+                //Log.d("Marker Start","lat = " + marker.getPosition().latitude + "Long  = " + marker.getPosition().longitude);
             }
 
             @Override
             public void onMarkerDrag(Marker marker) {
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
-                Log.d("Marker End","lat = " + marker.getPosition().latitude + "Long  = " + marker.getPosition().longitude);
+                //Log.d("Marker End","lat = " + marker.getPosition().latitude + "Long  = " + marker.getPosition().longitude);
                 latLng = new LatLng(marker.getPosition().latitude,marker.getPosition().longitude);
             }
 
@@ -88,7 +88,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         vGet_Lat_Lang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(MapsActivity.this,"lat = " + latLng.latitude + "Log = " +latLng.longitude,Toast.LENGTH_LONG).show();
                 Intent intent = new Intent();
                 intent.putExtra("lat",Double.toString(latLng.latitude));
                 intent.putExtra("long",Double.toString(latLng.longitude));
@@ -99,6 +98,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     e.printStackTrace();
                 }
 
+                assert addresses != null;
                 String cityName = addresses.get(0).getPostalCode();
                 String stateName = addresses.get(0).getAdminArea().toUpperCase();
                 String countryName = addresses.get(0).getCountryName().toUpperCase();

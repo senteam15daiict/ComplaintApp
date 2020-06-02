@@ -26,6 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class Sign_Up extends AppCompatActivity {
 
     EditText vEmail,vPassword,vPhone_Number,vUser_Name;
@@ -52,7 +54,7 @@ public class Sign_Up extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("Citizen");
         vCitizen_Sign_Up_Page_Bar = (Toolbar) findViewById(R.id.Citizen_Sign_Up_Page_Bar);
         setSupportActionBar(vCitizen_Sign_Up_Page_Bar);
-        getSupportActionBar().setTitle("Citizen Sign Up");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Citizen Sign Up");
 
         vSign_Up.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,18 +120,18 @@ public class Sign_Up extends AppCompatActivity {
                             );
 
                             FirebaseDatabase.getInstance().getReference("Citizen")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                                     .setValue(c1).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(Sign_Up.this,"User created Succesfully",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Sign_Up.this, "User created Succesfully", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(getApplicationContext(),Login.class));
                                 }
                             });
 
                         }
                         else{
-                            Toast.makeText(Sign_Up.this,"Error! " + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Sign_Up.this,"Error! " + Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

@@ -24,17 +24,11 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     FirebaseAuth fauth;
     int backButtonCount = 0;
-    Toolbar vMain_Activity_Toolbar;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        vMain_Activity_Toolbar = (Toolbar) findViewById(R.id.Main_Activity_Toolbar);
-
-        setSupportActionBar(vMain_Activity_Toolbar);
-        getSupportActionBar().setTitle("Complaint App");
 
 
         fauth = FirebaseAuth.getInstance();
@@ -43,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this,Login.class));
         }
         else{
-            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
             databaseReference = FirebaseDatabase.getInstance().getReference("Citizen").child(uid);
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override

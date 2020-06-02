@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -52,7 +53,8 @@ public class Citizen_History_On_The_Job_Fragment extends Fragment {
         vCitizen_History_On_The_Job_Recycler_View.setLayoutManager(new LinearLayoutManager(getContext()));
 
         fauth = FirebaseAuth.getInstance();
-        Citizen_Id = fauth.getCurrentUser().getUid();
+        Citizen_Id = Objects.requireNonNull(fauth.getCurrentUser()).getUid();
+
 
         complaint_adapter = new Complaint_Adapter(Complaint_List,"On_The_Job","Citizen");
         linearLayoutManager = new LinearLayoutManager(getContext());

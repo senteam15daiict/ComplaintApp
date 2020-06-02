@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -53,7 +54,7 @@ public class Citizen_History_Resolved_Fragment extends Fragment {
         vCitizen_History_Resolved_Recycler_View.setLayoutManager(new LinearLayoutManager(getContext()));
 
         fauth = FirebaseAuth.getInstance();
-        Citizen_Id = fauth.getCurrentUser().getUid();
+        Citizen_Id = Objects.requireNonNull(fauth.getCurrentUser()).getUid();
         complaint_adapter = new Complaint_Adapter(Complaint_List,"Resolved","Citizen");
         linearLayoutManager = new LinearLayoutManager(getContext());
         vCitizen_History_Resolved_Recycler_View.setLayoutManager(linearLayoutManager);

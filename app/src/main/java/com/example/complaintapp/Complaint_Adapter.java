@@ -3,6 +3,7 @@ package com.example.complaintapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,8 +30,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Complaint_Adapter extends RecyclerView.Adapter<Complaint_Adapter.Complaint_View_Holder> {
 
-    public List<Complaint> Complaint_List;
-    DatabaseReference databaseReference;
+    List<Complaint> Complaint_List;
     String Complaint_Status;
     String User_Type;
 
@@ -45,8 +46,6 @@ public class Complaint_Adapter extends RecyclerView.Adapter<Complaint_Adapter.Co
         public static TextView vComplaint_User_Name,vComplaint_Last_Seen;
         public static TextView vComplaint_Type,vComplaint_Address;
         public static CircleImageView vComplaint_Citizen_Profile_Image,vComplaint_Type_Image;
-        //String Sender_Id,Reciever_Id,Complaint_Id;
-        //public static TextView vResolved_Complaint_layout_User_name,vResolved_Complaint_layout_Address;
 
         public Complaint_View_Holder(@NonNull View itemView,String complaint_Status) {
             super(itemView);
@@ -87,9 +86,6 @@ public class Complaint_Adapter extends RecyclerView.Adapter<Complaint_Adapter.Co
     @Override
     public Complaint_View_Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = null;
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        
-
             switch (Complaint_Status){
                 case "Pending":
                     view = LayoutInflater.from(parent.getContext())
@@ -113,11 +109,6 @@ public class Complaint_Adapter extends RecyclerView.Adapter<Complaint_Adapter.Co
 
 
         return new Complaint_View_Holder(view,"");
-        /*View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.resolved_complaint_layout,parent,false);
-        fauth = FirebaseAuth.getInstance();
-
-        return new Complaint_View_Holder(view,"Pending");*/
     }
 
     @Override
@@ -132,8 +123,6 @@ public class Complaint_Adapter extends RecyclerView.Adapter<Complaint_Adapter.Co
         String Complaint_Address = complaint.Address;
         String Complaint_Type = complaint.Type;
         String Complaint_Date = complaint.date;
-        String Complaint_Description = complaint.Description;
-        String Complaint_Image_Url = complaint.Image_Url;
         String Complaint_Sender_Id = complaint.Citizen_User_Id;
 
         int icon = getResId("ic_" + Complaint_Type,R.drawable.class);
@@ -147,12 +136,12 @@ public class Complaint_Adapter extends RecyclerView.Adapter<Complaint_Adapter.Co
         Complaint_View_Holder.vComplaint_Type.setText(Complaint_Type);
         Complaint_View_Holder.vComplaint_Address.setText(Complaint_Address);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("Citizen").child(Complaint_Sender_Id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
-                    String Complaint_Citizen_Profile_Image_Url = dataSnapshot.child("Profile_Image_Url").getValue().toString();
+                    String Complaint_Citizen_Profile_Image_Url = Objects.requireNonNull(dataSnapshot.child("Profile_Image_Url").getValue()).toString();
                     if (!Complaint_Citizen_Profile_Image_Url.equals("")) {
                         Picasso.get().load(Complaint_Citizen_Profile_Image_Url).into(Complaint_View_Holder.vComplaint_Citizen_Profile_Image);
                     }
@@ -202,91 +191,7 @@ public class Complaint_Adapter extends RecyclerView.Adapter<Complaint_Adapter.Co
 
             }
         });
-
-        /*if(this.User_Type.equals("Citizen")){
-            switch (this.Complaint_Status){
-                case "Pending":
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Context context = v.getContext();
-                            Intent intent = new Intent(context,Complaint_Pending_Full.class);
-                            intent.putExtras(bundle);
-                            context.startActivity(intent);
-                        }
-                    });
-                    return;
-
-                case "Resolved":
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Context context = v.getContext();
-                            Intent intent = new Intent(context,Complaint_Resolved_Full.class);
-                            intent.putExtras(bundle);
-                            context.startActivity(intent);
-                        }
-                    });
-                    return;
-
-                case "On_The_Job":
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Context context = v.getContext();
-                            Intent intent = new Intent(context,Complaint_On_The_Job_Full.class);
-                            intent.putExtras(bundle);
-                            context.startActivity(intent);
-                        }
-                    });
-                    return;
-            }
-        }
-        else if(this.User_Type.equals("Corporation")){
-            switch (this.Complaint_Status){
-                case "Pending":
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Context context = v.getContext();
-                            Intent intent = new Intent(context,Complaint_Pending_Full.class);
-                            intent.putExtras(bundle);
-                            context.startActivity(intent);
-                        }
-                    });
-                    return;
-
-                case "Resolved":
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Context context = v.getContext();
-                            Intent intent = new Intent(context,Complaint_Resolved_Full.class);
-                            intent.putExtras(bundle);
-                            context.startActivity(intent);
-                        }
-                    });
-                    return;
-
-                case "On_The_Job":
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Context context = v.getContext();
-                            Intent intent = new Intent(context,Complaint_On_The_Job_Full.class);
-                            intent.putExtras(bundle);
-                            context.startActivity(intent);
-                        }
-                    });
-                    return;
-            }
-        }*/
-
-
-
     }
-
-
 
     @Override
     public int getItemCount() {

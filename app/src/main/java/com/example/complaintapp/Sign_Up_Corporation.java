@@ -8,8 +8,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,18 +28,24 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class Sign_Up_Corporation extends AppCompatActivity {
 
     EditText vCorporation_User_Name,vCorporation_Phone_Number,vCorporation_Email;
     EditText vCorporation_Password,vCorporation_Security_Key;
-    EditText vCorporation_Country,vCorporation_State,vCorporation_District;
+    Spinner vCorporation_Country,vCorporation_State,vCorporation_District;
     Button  vCorporation_Sign_Up;
     TextView vCorporation_Login_Screen,vCorporation_Register_As_Citizen;
     DatabaseReference databaseReference;
     FirebaseAuth fauth;
     int backButtonCount = 0;
     Toolbar vCorporation_Sign_Up_Page_bar;
+    ArrayList<String> Country_List,State_List,District_List;
+    ArrayAdapter<String> Country_Adapter,State_Adapter,District_Adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +57,9 @@ public class Sign_Up_Corporation extends AppCompatActivity {
         vCorporation_Email = (EditText) findViewById(R.id.Corporation_Email);
         vCorporation_Password = (EditText) findViewById(R.id.Corporation_Password);
         vCorporation_Security_Key = (EditText) findViewById(R.id.Corporation_Security_Key);
-        vCorporation_Country = (EditText) findViewById(R.id.Corporation_Country);
-        vCorporation_State = (EditText) findViewById(R.id.Corporation_State);
-        vCorporation_District = (EditText) findViewById(R.id.Corporation_District);
+        vCorporation_Country = (Spinner) findViewById(R.id.Corporation_Country);
+        vCorporation_State = (Spinner) findViewById(R.id.Corporation_State);
+        vCorporation_District = (Spinner) findViewById(R.id.Corporation_District);
         vCorporation_Sign_Up = (Button) findViewById(R.id.Corporation_Sign_Up);
         vCorporation_Login_Screen = (TextView) findViewById(R.id.Corporation_Login_Screen);
         vCorporation_Register_As_Citizen = (TextView) findViewById(R.id.Corporation_Register_As_Citizen);
@@ -58,7 +67,21 @@ public class Sign_Up_Corporation extends AppCompatActivity {
         fauth = FirebaseAuth.getInstance();
         vCorporation_Sign_Up_Page_bar = (Toolbar) findViewById(R.id.Corporation_Sign_Up_Page_bar);
         setSupportActionBar(vCorporation_Sign_Up_Page_bar);
-        getSupportActionBar().setTitle("Corporation Sign Up");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Corporation Sign Up");
+
+        Country_List = new ArrayList<>();
+        State_List = new ArrayList<>();
+        District_List = new ArrayList<>();
+
+        Country_Adapter = new ArrayAdapter<String>(Sign_Up_Corporation.this,android.R.layout.simple_spinner_dropdown_item,Country_List);
+        State_Adapter = new ArrayAdapter<String>(Sign_Up_Corporation.this,android.R.layout.simple_spinner_dropdown_item,State_List);
+        District_Adapter = new ArrayAdapter<String>(Sign_Up_Corporation.this,android.R.layout.simple_spinner_dropdown_item,District_List);
+
+        vCorporation_Country.setAdapter(Country_Adapter);
+        vCorporation_State.setAdapter(State_Adapter);
+        vCorporation_District.setAdapter(District_Adapter);
+
+        setLocationData();
 
         vCorporation_Login_Screen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,15 +107,20 @@ public class Sign_Up_Corporation extends AppCompatActivity {
                 String email = vCorporation_Email.getText().toString();
                 String password = vCorporation_Password.getText().toString();
                 String security_key = vCorporation_Security_Key.getText().toString();
-                final String country = vCorporation_Country.getText().toString();
-                String state = vCorporation_State.getText().toString();
-                String district = vCorporation_District.getText().toString();
+                final String country = vCorporation_Country.getSelectedItem().toString();
+                final String state = vCorporation_State.getSelectedItem().toString();
+                final String district = vCorporation_District.getSelectedItem().toString();
 
                 Location l1 = new Location(
                         country,
                         state,
                         district
                 );
+
+                if(country.equals("Country") || state.equals("State") || district.equals("District")){
+                    Toast.makeText(Sign_Up_Corporation.this,"Please select Location",Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 if(TextUtils.isEmpty(user_name)){
                     vCorporation_User_Name.setError("Please Enter User Name");
@@ -106,8 +134,9 @@ public class Sign_Up_Corporation extends AppCompatActivity {
                 else{
                     int f = 0;
                     for(int i=0;i<10;i++){
-                        if(!(phone_number.charAt(i) >= '0' && phone_number.charAt(i)<= '9')){
+                        if (!(phone_number.charAt(i) >= '0' && phone_number.charAt(i) <= '9')) {
                             f = 1;
+                            break;
                         }
                     }
                     if(f == 1){
@@ -115,22 +144,6 @@ public class Sign_Up_Corporation extends AppCompatActivity {
                         return;
                     }
                 }
-
-                if(TextUtils.isEmpty(country)){
-                    vCorporation_Country.setError("Please Enter Country");
-                    return;
-                }
-
-                if(TextUtils.isEmpty(state)){
-                    vCorporation_State.setError("Please Enter State");
-                    return;
-                }
-
-                if(TextUtils.isEmpty(district)){
-                    vCorporation_District.setError("Please Enter District");
-                    return;
-                }
-
 
                 final Corporation  c1 = new Corporation(
                         user_name,
@@ -145,18 +158,23 @@ public class Sign_Up_Corporation extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+                            String User_Id = Objects.requireNonNull(FirebaseAuth.getInstance().getInstance().getCurrentUser()).getUid();
                             FirebaseDatabase.getInstance().getReference("Corporation")
-                                    .child(fauth.getInstance().getCurrentUser().getUid())
-                                    .setValue(c1).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    .child(User_Id)
+                                    .setValue(c1);
+                            Map<String,String> m = new HashMap<>();
+                            m.put("Open","1");
+                            databaseReference = FirebaseDatabase.getInstance().getReference();
+                            databaseReference.child("Corporation_Location").child(country).child(state).child(district)
+                                    .child(User_Id).setValue(m).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-
-
-                                    Toast.makeText(Sign_Up_Corporation.this,"Registered Succesfully",Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(Sign_Up_Corporation.this,Login.class));
-                                    finish();
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(Sign_Up_Corporation.this,"Registered Succesfully",Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(Sign_Up_Corporation.this,Login.class));
+                                        finish();
+                                    }
                                 }
-
                             });
                         }
                         else{
@@ -169,6 +187,102 @@ public class Sign_Up_Corporation extends AppCompatActivity {
         });
     }
 
+    private void setLocationData() {
+        final String[] country = new String[1];
+        final String[] state = new String[1];
+        final String district;
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("Corporation_Location").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Country_Adapter.clear();
+                Country_Adapter.add("Country");
+                for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
+                    Country_Adapter.add(dataSnapshot1.getKey());
+                }
+                Country_Adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        vCorporation_Country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                country[0] = parent.getItemAtPosition(position).toString();
+                if(!country[0].equals("Country")){
+                    databaseReference = FirebaseDatabase.getInstance().getReference();
+                    databaseReference.child("Corporation_Location").child(country[0]).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                            State_Adapter.clear();
+                            State_Adapter.add("State");
+                            for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                                State_Adapter.add(dataSnapshot1.getKey());
+                            }
+                            State_Adapter.notifyDataSetChanged();
+
+                            vCorporation_State.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    state[0] = parent.getItemAtPosition(position).toString();
+                                    if(!state[0].equals("State")){
+                                        databaseReference = FirebaseDatabase.getInstance().getReference();
+                                        databaseReference.child("Corporation_Location").child(country[0]).child(state[0]).addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                District_Adapter.clear();
+                                                District_Adapter.add("District");
+                                                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                                                    District_Adapter.add(dataSnapshot1.getKey());
+                                                }
+                                                District_Adapter.notifyDataSetChanged();
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
+                                    }
+                                    else{
+                                        District_Adapter.clear();
+                                        District_Adapter.add("District");
+                                        District_Adapter.notifyDataSetChanged();
+                                    }
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+                else{
+                    State_Adapter.clear();
+                    State_Adapter.add("State");
+                    State_Adapter.notifyDataSetChanged();
+                    District_Adapter.clear();
+                    District_Adapter.add("District");
+                    District_Adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
 
 
     @Override

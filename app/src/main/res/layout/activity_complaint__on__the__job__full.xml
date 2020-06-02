@@ -10,27 +10,31 @@
         android:id="@+id/Complaint_Pending_Full_bar"
         layout="@layout/app_bar_layout" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Complaint_Pending_Full_bar"
+        android:id="@+id/Complaint_Image">
+
+        <ImageView
+            android:id="@+id/Complaint_On_The_Job_Full_Complaint_Image"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:src="@drawable/ic_default_complaint_image" />
+
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Complaint_Pending_Full_bar">
+        android:layout_below="@+id/Complaint_Image">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/Complaint_On_The_Job_Full_Complaint_Image"
-                    android:layout_width="match_parent"
-                    android:layout_height="350dp"
-                    android:src="@drawable/ic_default_complaint_image" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/First_Bar"
@@ -181,9 +185,13 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="cancel"
+                    android:text="Cancel"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"
+                    android:textAllCaps="false"
+                    android:textSize="20sp"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/custom_button_0"/>
 
                 <Button
                     android:id="@+id/Change_To_Resolved"
@@ -192,7 +200,11 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_height="wrap_content"
-                    android:text="Complaint Resolved" />
+                    android:text="Complaint Resolved"
+                    android:textAllCaps="false"
+                    android:textSize="17sp"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/custom_button_0"/>
             </LinearLayout>
 
         </LinearLayout>

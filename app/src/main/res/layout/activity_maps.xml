@@ -16,7 +16,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Get Lat Lang"
-        android:id="@+id/Get_Lat_Lang"/>
+        android:text="Get Coordinates"
+        android:id="@+id/Get_Lat_Lang"
+        android:layout_margin="10dp"
+        android:textColor="#ffffff"
+        android:background="@drawable/custom_button_0"/>
 
 </RelativeLayout>

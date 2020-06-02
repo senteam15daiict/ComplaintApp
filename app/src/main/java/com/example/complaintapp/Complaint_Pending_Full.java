@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +28,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 public class Complaint_Pending_Full extends AppCompatActivity {
 
@@ -37,8 +39,9 @@ public class Complaint_Pending_Full extends AppCompatActivity {
     TextView vComplaint_Pending_Full_Address,vComplaint_Pending_Full_Description;
     TextView vComplaint_Pending_Full_Agree_Count,vComplaint_Pending_Full_Disagree_Count;
     Button vChange_To_On_The_Job;
-    StorageReference storageReference;
     String address;
+    FirebaseAuth firebaseAuth;
+    String User_Id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +62,21 @@ public class Complaint_Pending_Full extends AppCompatActivity {
         vComplaint_Pending_Full_Complaint_Type_Image = (CircleImageView) findViewById(R.id.Complaint_Pending_Full_Complaint_Type_Image);
         vChange_To_On_The_Job = (Button) findViewById(R.id.Change_To_On_The_Job);
 
-        final Bundle bundle = getIntent().getExtras();
-        //Toast.makeText(Complaint_Pending_Full.this,"hii",Toast.LENGTH_LONG).show();
-        assert bundle != null;
-        final String Citizen_User_Id = bundle.get("Citizen_User_Id").toString();
-        final String Corporation_User_Id = bundle.get("Corporation_User_Id").toString();
-        final String Complaint_Id = bundle.get("Complaint_Id").toString();
-        final String User_Type = bundle.get("User_Type").toString();
+        firebaseAuth = FirebaseAuth.getInstance();
+        User_Id = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
 
-        storageReference = FirebaseStorage.getInstance().getReference();
+        final Bundle bundle = getIntent().getExtras();
+        assert bundle != null;
+        final String Citizen_User_Id = Objects.requireNonNull(bundle.get("Citizen_User_Id")).toString();
+        final String Corporation_User_Id = Objects.requireNonNull(bundle.get("Corporation_User_Id")).toString();
+        final String Complaint_Id = Objects.requireNonNull(bundle.get("Complaint_Id")).toString();
+        final String User_Type = Objects.requireNonNull(bundle.get("User_Type")).toString();
+
+        /*Log.d("Citizen_User_Id = ",Citizen_User_Id);
+        Log.d("Corporation_User_Id = ",Corporation_User_Id);
+        Log.d("Complaint_Id = ",Complaint_Id);
+        Log.d("User_Type = ",User_Type);*/
+
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("Citizen").child(Citizen_User_Id)
@@ -75,10 +84,9 @@ public class Complaint_Pending_Full extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.exists()){
-                            String url = dataSnapshot.child("Profile_Image_Url").toString();
+                            String url = Objects.requireNonNull(dataSnapshot.child("Profile_Image_Url").getValue()).toString();
                             if(!url.equals("")){
                                 Picasso.get().load(url).into(vComplaint_Pending_Full_Profile_Image);
-                                //Toast.makeText(Complaint_Pending_Full.this,"hello",Toast.LENGTH_LONG).show();
                             }
                         }
                     }
@@ -89,10 +97,7 @@ public class Complaint_Pending_Full extends AppCompatActivity {
                     }
                 });
 
-        //Toast.makeText(Complaint_Pending_Full.this,Citizen_User_Id,Toast.LENGTH_LONG).show();
-        //Log.d("123","" + databaseReference.toString());
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        //Log.d("111","hiii" );
         databaseReference.child("Complaints_Sender_Pending").child(Citizen_User_Id).child(Corporation_User_Id).child(Complaint_Id)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -101,7 +106,6 @@ public class Complaint_Pending_Full extends AppCompatActivity {
 
                             Complaint c1 = dataSnapshot.getValue(Complaint.class);
                             assert c1 != null;
-                            //Log.d("12345","" + c1.Citizen_User_Name);
                             int x1 = getResId("ic_" +c1.Type,R.drawable.class);
                             if(x1 != -1){
                                 vComplaint_Pending_Full_Complaint_Type_Image.setImageResource(x1);
@@ -112,7 +116,6 @@ public class Complaint_Pending_Full extends AppCompatActivity {
                             vComplaint_Pending_Full_Complaint_Type.setText(c1.Type);
                             vComplaint_Pending_Full_Description.setText(c1.Description);
                             address = vComplaint_Pending_Full_Address.getText().toString();
-                            //Log.d("123456","" + c1.Citizen_User_Name);
 
                             if(!c1.Image_Url.equals("")){
                                 Picasso.get().load(c1.Image_Url).into(vComplaint_Pending_Full_Complaint_Image);
@@ -126,7 +129,26 @@ public class Complaint_Pending_Full extends AppCompatActivity {
                     }
                 });
 
-        final int[] clicks = {0};
+        setDataAD(Complaint_Id);
+
+        vComplaint_Pending_Full_Agree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference.child("Agreement").child("Disagree").child(Complaint_Id).child(User_Id).removeValue();
+                databaseReference.child("Agreement").child("Agree").child(Complaint_Id).child(User_Id).setValue("1");
+            }
+        });
+
+        vComplaint_Pending_Full_Disagree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference.child("Agreement").child("Agree").child(Complaint_Id).child(User_Id).removeValue();
+                databaseReference.child("Agreement").child("Disagree").child(Complaint_Id).child(User_Id).setValue("1");
+            }
+        });
+
         vComplaint_Pending_Full_Address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,8 +161,8 @@ public class Complaint_Pending_Full extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()){
-                                    lat[0] = dataSnapshot.child("lat").getValue().toString();
-                                    lon[0] = dataSnapshot.child("lon").getValue().toString();
+                                    lat[0] = Objects.requireNonNull(dataSnapshot.child("lat").getValue()).toString();
+                                    lon[0] = Objects.requireNonNull(dataSnapshot.child("lon").getValue()).toString();
 
                                     vComplaint_Pending_Full_Address.setText(lat[0] + "_" + lon[0]);
                                 }
@@ -169,16 +191,12 @@ public class Complaint_Pending_Full extends AppCompatActivity {
                         }
                     }
                 }
-                //vComplaint_Pending_Full_Address.setText(address);
-                //Toast.makeText(Complaint_Pending_Full.this,lat[0] + " -- " + lon[0],Toast.LENGTH_LONG).show();
-
                 if(!lon[0].equals("")){
                     Intent intent = new Intent(Complaint_Pending_Full.this,MapsActivity2.class);
                     final Bundle b1 = new Bundle();
                     b1.putString("Lat", lat[0]);
                     b1.putString("Lon", lon[0]);
                     intent.putExtras(b1);
-                    //Toast.makeText(Complaint_Pending_Full.this,address,Toast.LENGTH_LONG).show();
                     startActivity(intent);
                 }
 
@@ -200,6 +218,7 @@ public class Complaint_Pending_Full extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if(dataSnapshot.exists()){
                                         Complaint c1 = dataSnapshot.getValue(Complaint.class);
+                                        assert c1 != null;
                                         c1.Status = "On_The_Job";
                                         databaseReference = FirebaseDatabase.getInstance().getReference();
                                         databaseReference.child("Complaints_Sender_On_The_Job").child(Citizen_User_Id).child(Corporation_User_Id)
@@ -213,17 +232,7 @@ public class Complaint_Pending_Full extends AppCompatActivity {
                                 }
                             });
                     databaseReference.child("Complaints_Sender_Pending").child(Citizen_User_Id).child(Corporation_User_Id).child(Complaint_Id)
-                            .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                //Toast.makeText(Complaint_Pending_Full.this,"Removed from Complaint_Sender_Pending",Toast.LENGTH_LONG).show();
-                            }
-                            else{
-                                //Toast.makeText(Complaint_Pending_Full.this,"Error! " + task.getException().toString(),Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+                            .removeValue();
                     databaseReference = FirebaseDatabase.getInstance().getReference();
                     databaseReference.child("Complaints_Receiver_Pending").child(Corporation_User_Id).child(Citizen_User_Id).child(Complaint_Id)
                             .addValueEventListener(new ValueEventListener() {
@@ -231,11 +240,11 @@ public class Complaint_Pending_Full extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if(dataSnapshot.exists()){
                                         Complaint c1 = dataSnapshot.getValue(Complaint.class);
+                                        assert c1 != null;
                                         c1.Status = "On_The_Job";
                                         databaseReference = FirebaseDatabase.getInstance().getReference();
                                         databaseReference.child("Complaints_Receiver_On_The_Job").child(Corporation_User_Id).child(Citizen_User_Id)
                                                 .child(Complaint_Id).setValue(c1);
-                                        //Toast.makeText(Complaint_Pending_Full.this,"added succefully",Toast.LENGTH_LONG).show();
                                     }
                                 }
 
@@ -252,7 +261,7 @@ public class Complaint_Pending_Full extends AppCompatActivity {
                                 Toast.makeText(Complaint_Pending_Full.this,"Updated Successfully",Toast.LENGTH_LONG).show();
                             }
                             else{
-                                Toast.makeText(Complaint_Pending_Full.this,"Error! " + task.getException().toString(),Toast.LENGTH_LONG).show();
+                                Toast.makeText(Complaint_Pending_Full.this,"Error! " + Objects.requireNonNull(task.getException()).toString(),Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -264,6 +273,40 @@ public class Complaint_Pending_Full extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setDataAD(String Complaint_Id) {
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("Agreement").child("Agree").child(Complaint_Id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    long size = dataSnapshot.getChildrenCount();
+                    vComplaint_Pending_Full_Agree_Count.setText(String.valueOf(size));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("Agreement").child("Disagree").child(Complaint_Id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    long size = dataSnapshot.getChildrenCount();
+                    vComplaint_Pending_Full_Disagree_Count.setText(String.valueOf(size));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public static int getResId(String resName, Class<?> c) {

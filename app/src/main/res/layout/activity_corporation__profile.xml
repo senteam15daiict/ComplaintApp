@@ -66,7 +66,9 @@
                     android:layout_weight="1"
                     android:text="Logout"
                     android:textAllCaps="false"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/custom_button_0"/>
 
                 <Button
                     android:id="@+id/Corporation_Delete_Account"
@@ -75,9 +77,11 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
-                    android:text="Delete Account"
+                    android:text="Delete Acc"
                     android:textAllCaps="false"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/custom_button_0"/>
 
 
             </LinearLayout>
@@ -141,7 +145,9 @@
                     android:layout_weight="1"
                     android:text="Add"
                     android:textAllCaps="false"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/custom_button_0"/>
 
                 <Button
                     android:id="@+id/Remove_Type_Button"
@@ -152,7 +158,9 @@
                     android:layout_weight="1"
                     android:text="Remove"
                     android:textAllCaps="false"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/custom_button_0"/>
 
             </LinearLayout>
         </RelativeLayout>
