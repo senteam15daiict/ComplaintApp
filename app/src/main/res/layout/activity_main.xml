@@ -23,7 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:src="@drawable/ic_complaint_app_logo"
-        android:id="@+id/Complaint_App_Logo" />
+        android:id="@+id/Complaint_App_Logo"
+        android:contentDescription="Logo" />
 
 
 

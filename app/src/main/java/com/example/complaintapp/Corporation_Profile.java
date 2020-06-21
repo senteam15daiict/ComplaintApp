@@ -14,10 +14,12 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +42,8 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import org.w3c.dom.Text;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +55,7 @@ public class Corporation_Profile extends AppCompatActivity {
     Button vCorporation_Logout,vCorporation_Delete_Account,vAdd_Type_Button,vRemove_Type_Button;
     Toolbar vCorporation_Profile_Page_bar;
     CircleImageView vCorporation_Profile_Image,vCorporation_Profile_Image_Selector;
-    TextView vCorporation_User_Name_below_Image;
+    TextView vCorporation_User_Name_below_Image,vCorporation_Phone_Number;
     FirebaseAuth fauth;
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference,databaseReference1,databaseReference2;
@@ -72,6 +76,7 @@ public class Corporation_Profile extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         vCorporation_Profile_Page_bar = findViewById(R.id.Corporation_Profile_Page_bar);
         vCorporation_User_Name_below_Image = (TextView) findViewById(R.id.Corporation_User_Name_below_Image);
+        vCorporation_Phone_Number = (TextView) findViewById(R.id.Corporation_Phone_Number);
         vCorporation_Profile_Image = (CircleImageView) findViewById(R.id.Corporation_Profile_Image);
         vCorporation_Profile_Image_Selector = (CircleImageView) findViewById(R.id.Corporation_Profile_Image_Selector);
         fauth = FirebaseAuth.getInstance();
@@ -130,6 +135,74 @@ public class Corporation_Profile extends AppCompatActivity {
                 startActivityForResult(intent,GalleryPick);
             }
         });
+
+        vCorporation_User_Name_below_Image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder mbuilder =new AlertDialog.Builder(Corporation_Profile.this);
+                View mview =getLayoutInflater().inflate(R.layout.edit_text_layout,null);
+                mbuilder.setTitle("Edit User Name");
+
+                EditText vedit_text_layout = mview.findViewById(R.id.edit_text_layout);
+                vedit_text_layout.setText(vCorporation_User_Name_below_Image.getText().toString());
+
+                mbuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = vedit_text_layout.getText().toString().trim();
+                        vCorporation_User_Name_below_Image.setText(name);
+                        databaseReference = FirebaseDatabase.getInstance().getReference();
+                        databaseReference.child("Corporation").child(Corporation_Id).child("User_name").setValue(name);
+                    }
+                });
+
+                mbuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                mbuilder.setView(mview);
+                AlertDialog dialog = mbuilder.create();
+                dialog.show();
+            }
+        });
+
+        vCorporation_Phone_Number.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder mbuilder =new AlertDialog.Builder(Corporation_Profile.this);
+                View mview =getLayoutInflater().inflate(R.layout.edit_text_layout,null);
+                mbuilder.setTitle("Edit User Name");
+
+                EditText vedit_text_layout = mview.findViewById(R.id.edit_text_layout);
+                vedit_text_layout.setInputType(InputType.TYPE_CLASS_PHONE);
+                vedit_text_layout.setText(vCorporation_Phone_Number.getText().toString());
+
+                mbuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = vedit_text_layout.getText().toString().trim();
+                        vCorporation_Phone_Number.setText(name);
+                        databaseReference = FirebaseDatabase.getInstance().getReference();
+                        databaseReference.child("Corporation").child(Corporation_Id).child("User_name").setValue(name);
+                    }
+                });
+
+                mbuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                mbuilder.setView(mview);
+                AlertDialog dialog = mbuilder.create();
+                dialog.show();
+            }
+        });
+
 
         vCorporation_Delete_Account.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -401,8 +474,9 @@ public class Corporation_Profile extends AppCompatActivity {
                 if(dataSnapshot.exists()){
                     String userName = Objects.requireNonNull(dataSnapshot.child("User_name").getValue()).toString();
                     String url = Objects.requireNonNull(dataSnapshot.child("Profile_Image_Url").getValue()).toString();
-
+                    String phone_number = Objects.requireNonNull(dataSnapshot.child("Phone_Number").getValue()).toString();
                     vCorporation_User_Name_below_Image.setText(userName);
+                    vCorporation_Phone_Number.setText(phone_number);
                     if(!url.equals("")){
                         Picasso.get().load(url).into(vCorporation_Profile_Image);
                     }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".Complaint_Resolved_Full">
 
     <include
@@ -25,10 +26,10 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/Complaint_Resolved_Full_Complaint_Image"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
-                    android:src="@drawable/ic_default_complaint_image"
-                    android:id="@+id/Complaint_Resolved_Full_Complaint_Image"/>
+                    android:src="@drawable/ic_default_complaint_image" />
 
             </LinearLayout>
 
@@ -68,16 +69,20 @@
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/Complaint_Resolved_Full_Time"
+                        <ScrollView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="5dp"
-                            android:text="last seen"
-                            android:textColor="#000000"
-                            android:textSize="18sp" />
+                            android:layout_height="wrap_content">
 
+                            <TextView
+                                android:id="@+id/Complaint_Resolved_Full_Time"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="5dp"
+                                android:text="last seen"
+                                android:textColor="#000000"
+                                android:textSize="18sp" />
+                        </ScrollView>
                     </LinearLayout>
 
                     <LinearLayout
@@ -160,14 +165,14 @@
 
 
                 <TextView
+                    android:id="@+id/Complaint_Resolved_Full_Description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:text="Sample dedscription of the Complaints"
                     android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:id="@+id/Complaint_Resolved_Full_Description"/>
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -222,14 +227,14 @@
                             android:src="@drawable/ic_feedback_best" />
 
                         <TextView
+                            android:id="@+id/Complaint_Resolved_Full_Feedback_Best_Count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
                             android:text="0"
                             android:textColor="#000000"
-                            android:textSize="18sp"
-                            android:id="@+id/Complaint_Resolved_Full_Feedback_Best_Count"/>
+                            android:textSize="18sp" />
 
                     </LinearLayout>
 
@@ -246,14 +251,14 @@
                             android:src="@drawable/ic_feedback_normal" />
 
                         <TextView
+                            android:id="@+id/Complaint_Resolved_Full_Feedback_Normal_Count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
                             android:text="0"
                             android:textColor="#000000"
-                            android:textSize="18sp"
-                            android:id="@+id/Complaint_Resolved_Full_Feedback_Normal_Count"/>
+                            android:textSize="18sp" />
 
                     </LinearLayout>
 
@@ -270,31 +275,31 @@
                             android:src="@drawable/ic_feedback_worst" />
 
                         <TextView
+                            android:id="@+id/Complaint_Resolved_Full_Feedback_Worst_Count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
                             android:text="0"
                             android:textColor="#000000"
-                            android:textSize="18sp"
-                            android:id="@+id/Complaint_Resolved_Full_Feedback_Worst_Count"/>
+                            android:textSize="18sp" />
 
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/Black_Line_1"
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
                 android:background="#000000"
-                android:id="@+id/Black_Line_1"
                 android:orientation="horizontal" />
 
             <RelativeLayout
+                android:id="@+id/Response_Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:id="@+id/Response_Title">
+                android:layout_marginBottom="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -308,10 +313,10 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/Black_Line_2"
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
                 android:background="#000000"
-                android:id="@+id/Black_Line_2"
                 android:orientation="horizontal" />
 
             <LinearLayout
@@ -322,7 +327,8 @@
                     android:id="@+id/Response_First_Bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    tools:ignore="UselessParent">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/Complaint_Resolved_Full_Corporation_Profile_Image"
@@ -335,7 +341,8 @@
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:baselineAligned="false">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -372,27 +379,29 @@
                 </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
 
                 <TextView
+                    android:id="@+id/Complaint_Resolved_Full_Corporation_Response_Description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Thanks for letting Us know About The Problem"
-                    android:textColor="#000000"
-                    android:textSize="18sp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
-                    android:id="@+id/Complaint_Resolved_Full_Corporation_Response_Description"/>
+                    android:text="Thanks for letting Us know About The Problem"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
 
                 <ImageView
+                    android:id="@+id/Complaint_Resolved_Full_Corporation_Response_Image"
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
-                    android:background="#000000"
                     android:layout_marginTop="5dp"
-                    android:id="@+id/Complaint_Resolved_Full_Corporation_Response_Image"/>
+                    android:background="#000000" />
 
             </LinearLayout>
         </LinearLayout>

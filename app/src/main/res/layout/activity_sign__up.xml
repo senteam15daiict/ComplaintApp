@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".Sign_Up">
 
     <include
@@ -20,55 +21,70 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_complaint_app_logo"
+                android:contentDescription="Logo" />
 
             <EditText
                 android:id="@+id/Citizen_User_Name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
+                android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="24dp"
                 android:hint="User Name"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:drawableEnd="@drawable/ic_profile"
+                android:background="@drawable/bottom_black_line_background"/>
 
             <EditText
                 android:id="@+id/Citizen_Phone_Number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
+                android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="24dp"
                 android:hint="Phone Number"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:inputType="phone"
+                android:drawableEnd="@drawable/ic_phone"
+                android:background="@drawable/bottom_black_line_background"/>
 
             <EditText
                 android:id="@+id/Citizen_Email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="12dp"
+                android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="24dp"
                 android:hint="Email"
                 android:textColor="#000000"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:drawableEnd="@drawable/ic_email"
+                android:background="@drawable/bottom_black_line_background"/>
 
             <EditText
                 android:id="@+id/Citizen_Password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
+                android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="24dp"
                 android:hint="Password"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:inputType="textPassword"
+                android:drawableEnd="@drawable/ic_password"
+                android:background="@drawable/bottom_black_line_background"/>
 
             <Button
                 android:id="@+id/Citizen_Sign_Up"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="24dp"
                 android:padding="5dp"
                 android:text="Sign Up"
                 android:textAllCaps="false"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 android:textColor="#ffffff"
                 android:background="@drawable/custom_button_0"/>
 
@@ -81,7 +97,7 @@
                 android:gravity="center_horizontal"
                 android:text="Already Have an Account? Click here"
                 android:textColor="#000000"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/Register_Corporation"
@@ -91,7 +107,7 @@
                 android:layout_marginTop="15dp"
                 android:text="Register Coporation"
                 android:textColor="#000000"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
         </LinearLayout>
 
     </ScrollView>

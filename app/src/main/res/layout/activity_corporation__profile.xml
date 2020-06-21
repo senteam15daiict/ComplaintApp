@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".Corporation_Profile">
 
     <include
@@ -40,20 +41,33 @@
 
             <TextView
                 android:id="@+id/Corporation_User_Name_below_Image"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/Corporation_Profile_Image_Selector"
-                android:layout_centerHorizontal="true"
-                android:paddingTop="0dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
                 android:text="User_name"
-                android:textSize="20dp" />
+                android:textSize="20sp"
+                android:drawableEnd="@drawable/ic_post_complaint"
+                android:background="@drawable/bottom_black_line_background"/>
 
+            <TextView
+                android:id="@+id/Corporation_Phone_Number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/Corporation_User_Name_below_Image"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Phone Number"
+                android:textSize="20sp"
+                android:drawableEnd="@drawable/ic_post_complaint"
+                android:background="@drawable/bottom_black_line_background"/>
 
             <LinearLayout
                 android:id="@+id/Logout_Delete_Account_Linear_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/Corporation_User_Name_below_Image"
+                android:layout_below="@+id/Corporation_Phone_Number"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
@@ -95,7 +109,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Types Of Complaints You Solve :-"
                 android:textColor="#000000"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <Spinner
@@ -116,7 +130,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Types Of Complaints You Not Solve :-"
                 android:textColor="#000000"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <Spinner

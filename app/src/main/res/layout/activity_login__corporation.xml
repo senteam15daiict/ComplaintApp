@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".Login_Corporation">
 
     <include
@@ -18,27 +19,36 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/Corporation_Login_Page_bar"
             android:orientation="vertical">
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_complaint_app_logo"
+                android:contentDescription="Logo" />
 
             <EditText
                 android:id="@+id/Corporation_Login_Email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="12dp"
+                android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="24dp"
                 android:hint="Email"
                 android:textColor="#000000"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:drawableEnd="@drawable/ic_email"
+                android:background="@drawable/bottom_black_line_background"/>
 
             <EditText
                 android:id="@+id/Corporation_Login_Password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
+                android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="24dp"
+                android:inputType="textPassword"
+                android:background="@drawable/bottom_black_line_background"
+                android:drawableEnd="@drawable/ic_password"
                 android:hint="Password"
                 android:textSize="24sp" />
 
@@ -46,21 +56,27 @@
                 android:id="@+id/Corporation_Login_Security_Key"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
+                android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="24dp"
                 android:hint="Security key"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:inputType="textPassword"
+                android:drawableEnd="@drawable/ic_password"
+                android:background="@drawable/bottom_black_line_background"/>
 
             <Button
                 android:id="@+id/Corporation_Login_Button"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="24dp"
                 android:padding="5dp"
                 android:text="login"
                 android:textSize="24sp"
                 android:textColor="#ffffff"
+                android:textAllCaps="false"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:background="@drawable/custom_button_0"/>
 
             <RelativeLayout
@@ -73,9 +89,11 @@
                     android:id="@+id/Corporation_Create_Account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
                     android:text="Create Account"
                     android:textColor="#000000"
-                    android:textSize="15dp" />
+                    android:textSize="15sp"
+                    tools:ignore="RtlSymmetry" />
 
                 <TextView
                     android:id="@+id/Corporation_Forgot_Password"
@@ -85,9 +103,10 @@
                     android:layout_toEndOf="@+id/Corporation_Create_Account"
                     android:text="Forgot Password?"
                     android:textColor="#000000"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
 
             </RelativeLayout>
+
 
             <TextView
                 android:id="@+id/To_Open_Citizen_Login"
@@ -97,7 +116,7 @@
                 android:layout_marginTop="15dp"
                 android:text="Login as Citizen"
                 android:textColor="#000000"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
 
         </LinearLayout>

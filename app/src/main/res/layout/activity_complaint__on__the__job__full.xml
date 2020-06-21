@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".Complaint_On_The_Job_Full">
 
     <include
@@ -46,7 +47,7 @@
                     android:id="@+id/Complaint_On_The_Job_Full_Profile_Image"
                     android:layout_width="80dp"
                     android:layout_height="60dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:src="@drawable/default_profile_image" />
 
@@ -65,22 +66,26 @@
                             android:id="@+id/Complaint_On_The_Job_Full_User_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="5dp"
                             android:text="user_name"
                             android:textColor="#000000"
-                            android:textSize="20dp"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
+                        <ScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
                         <TextView
                             android:id="@+id/Complaint_On_The_Job_Full_Time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="5dp"
                             android:text="last seen"
                             android:textColor="#000000"
                             android:textSize="18sp" />
+                        </ScrollView>
 
                     </LinearLayout>
 
@@ -93,7 +98,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="right"
-                            android:src="@drawable/ic_on_the_job" />
+                            android:layout_marginEnd="10dp"
+                            android:src="@drawable/ic_on_the_job"
+                            tools:ignore="RtlHardcoded" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -116,18 +123,18 @@
                         android:id="@+id/Complaint_On_The_Job_Full_Complaint_Type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
                         android:layout_marginTop="15dp"
                         android:text="Complaint Type"
                         android:textColor="#000000"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/Complaint_On_The_Job_Full_Address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:text="Address"
                         android:textColor="#000000" />
@@ -156,7 +163,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:text="Description"
                     android:textColor="#000000"
                     android:textSize="24sp"
@@ -167,7 +174,7 @@
                     android:id="@+id/Complaint_On_The_Job_Full_Description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:text="Sample dedscription of the Complaints"
                     android:textColor="#000000"
@@ -178,6 +185,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <Button

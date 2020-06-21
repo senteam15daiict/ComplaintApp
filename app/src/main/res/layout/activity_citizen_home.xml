@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".Citizen_home">
 
     <include
@@ -25,7 +26,8 @@
             <LinearLayout
                 android:id="@+id/Spinner_Layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
                 <Spinner
                     android:id="@+id/Country_Spinner"
@@ -57,6 +59,7 @@
                 android:id="@+id/Complaint_Description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
                 android:hint="Complaint Text"
                 android:textSize="20sp" />
 
@@ -64,77 +67,94 @@
                 android:id="@+id/Complaint_Address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
                 android:hint="Local Address"
-                android:textSize="20dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Select Corporation:-"
-                android:textColor="#000000"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/Citizen_Home_Corporation_List"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Select Complaint Type:-"
-                android:textColor="#000000"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/Citizen_Home_Type_Spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
+                android:textSize="20sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:layout_marginHorizontal="5dp">
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:text="Select Corporation :-"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/Citizen_Home_Corporation_List"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:text="Select Complaint Type :-"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/Citizen_Home_Type_Spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/Citizen_Location"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="2dp"
                     android:layout_weight="1"
                     android:background="@drawable/custom_button_0"
                     android:text="GPS"
                     android:textColor="#ffffff"
-                    android:textSize="20sp"
-                    android:layout_marginHorizontal="2dp"/>
+                    android:textSize="20sp" />
 
                 <Button
                     android:id="@+id/Complaint_Image_Select_Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="2dp"
                     android:layout_weight="1"
                     android:background="@drawable/custom_button_0"
                     android:text="Add Image"
                     android:textColor="#ffffff"
-                    android:layout_marginHorizontal="2dp"/>
+                    android:textSize="20sp" />
 
                 <Button
                     android:id="@+id/Remove_Image"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="2dp"
                     android:layout_weight="1"
                     android:background="@drawable/custom_button_0"
                     android:text="Remove Image"
-                    android:textAllCaps="false"
                     android:textColor="#ffffff"
-                    android:layout_marginHorizontal="2dp"/>
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -142,9 +162,10 @@
                 android:id="@+id/Gps_Address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="gps address"
-                android:textSize="18sp"
-                android:layout_marginTop="10dp"/>
+                android:textColor="#000000"
+                android:textSize="18sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -154,13 +175,13 @@
                     android:id="@+id/Complaint_Submit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/custom_button_0"
-                    android:text="Submit"
-                    android:textColor="#ffffff"
-                    android:textSize="20sp"
                     android:layout_centerInParent="true"
+                    android:background="@drawable/custom_button_0"
+                    android:padding="5dp"
+                    android:text="Submit"
                     android:textAllCaps="false"
-                    android:padding="5dp"/>
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" />
 
             </RelativeLayout>
 

@@ -1,25 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#ffffff">
 
     <LinearLayout
-        android:id="@+id/First_Bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/On_The_Job_Complaint_layout_Profile_Image"
-            android:layout_width="80dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/default_profile_image" />
+        android:background="@drawable/round_corners_background"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        tools:ignore="UselessParent">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:id="@+id/First_Bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/On_The_Job_Complaint_layout_Profile_Image"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/default_profile_image" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/On_The_Job_Complaint_layout_User_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="User_name"
+                        android:textColor="#000000"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/On_The_Job_Complaint_layout_Time"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="last seen"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="0.5">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:src="@drawable/ic_on_the_job" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/Second_Bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/First_Bar"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -29,99 +93,42 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/On_The_Job_Complaint_layout_User_name"
+                    android:id="@+id/On_The_Job_Complaint_layout_Complaint_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:text="User_name"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Complaint Type"
                     android:textColor="#000000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/On_The_Job_Complaint_layout_Time"
+                    android:id="@+id/On_The_Job_Complaint_layout_Address"
                     android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:text="last seen"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Address"
+                    android:textColor="#000000" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="0.4">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end"
-                    android:src="@drawable/ic_on_the_job" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/On_The_Job_Complaint_layout_Complaint_Image"
+                    android:layout_width="95dp"
+                    android:layout_height="95dp"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/default_profile_image" />
             </LinearLayout>
         </LinearLayout>
 
-
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/Second_Bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/First_Bar"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/On_The_Job_Complaint_layout_Complaint_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:text="Complaint Type"
-                android:textColor="#000000"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/On_The_Job_Complaint_layout_Address"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:text="Address"
-                android:textColor="#000000" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/On_The_Job_Complaint_layout_Complaint_Image"
-                android:layout_width="95dp"
-                android:layout_height="95dp"
-                android:src="@drawable/default_profile_image"
-                android:layout_marginBottom="5dp"/>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/Third_bar"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_below="@+id/Second_Bar"
-        android:background="#757575"
-        android:orientation="horizontal" />
 
 </RelativeLayout>

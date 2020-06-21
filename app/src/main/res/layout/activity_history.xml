@@ -4,10 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".History">
-
-
-
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -28,6 +26,14 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Citizen_History_View_Pager"
+        android:layout_below="@+id/Citizen_History_Page_Main_Bar"
+        android:layout_above="@+id/bottom_navigation">
+    </androidx.viewpager.widget.ViewPager>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -41,13 +47,6 @@
         android:background="@color/yellow"/>
 
 
-    <androidx.viewpager.widget.ViewPager
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/Citizen_History_View_Pager"
-        android:layout_below="@+id/Citizen_History_Page_Main_Bar"
-        android:layout_above="@+id/bottom_navigation">
 
-    </androidx.viewpager.widget.ViewPager>
 
 </RelativeLayout>

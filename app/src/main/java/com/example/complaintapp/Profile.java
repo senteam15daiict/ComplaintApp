@@ -12,10 +12,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +48,7 @@ public class Profile extends AppCompatActivity {
     int backButtonCount = 0,GalleryPick = 1;
     Toolbar vCitizen_Profile_Page_Bar;
     CircleImageView vCitizen_Profile_Image,vCitizen_Profile_Image_Selector;
-    TextView vCitizen_User_Name_below_Image;
+    TextView vCitizen_User_Name_below_Image,vCitizen_Phone_Number;
     StorageReference Citizen_Profile_Image_Reference;
     FirebaseAuth fauth;
     FirebaseUser firebaseUser;
@@ -66,6 +68,7 @@ public class Profile extends AppCompatActivity {
         vCitizen_Profile_Image = (CircleImageView)  findViewById(R.id.Citizen_Profile_Image);
         vCitizen_Profile_Image_Selector = (CircleImageView) findViewById(R.id.Citizen_Profile_Image_Selector);
         vCitizen_User_Name_below_Image = (TextView) findViewById(R.id.Citizen_User_Name_below_Image);
+        vCitizen_Phone_Number = (TextView) findViewById(R.id.Citizen_Phone_Number);
         Citizen_Profile_Image_Reference = FirebaseStorage.getInstance().getReference().child("Citizen_Profile_Images");
         fauth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -114,6 +117,71 @@ public class Profile extends AppCompatActivity {
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 startActivityForResult(intent,GalleryPick);
+            }
+        });
+
+        vCitizen_User_Name_below_Image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder mbuilder =new AlertDialog.Builder(Profile.this);
+                View mview =getLayoutInflater().inflate(R.layout.edit_text_layout,null);
+                mbuilder.setTitle("Edit User Name");
+
+                EditText vedit_text_layout = mview.findViewById(R.id.edit_text_layout);
+                vedit_text_layout.setText(vCitizen_User_Name_below_Image.getText().toString());
+
+                mbuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = vedit_text_layout.getText().toString().trim();
+                        vCitizen_User_Name_below_Image.setText(name);
+                        databaseReference = FirebaseDatabase.getInstance().getReference();
+                        databaseReference.child("Citizen").child(Citizen_Id).child("User_Name").setValue(name);
+                    }
+                });
+
+                mbuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                mbuilder.setView(mview);
+                AlertDialog dialog =mbuilder.create();
+                dialog.show();
+            }
+        });
+
+        vCitizen_Phone_Number.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder mbuilder =new AlertDialog.Builder(Profile.this);
+                View mview =getLayoutInflater().inflate(R.layout.edit_text_layout,null);
+                mbuilder.setTitle("Edit Phone Number");
+
+                EditText vedit_text_layout = mview.findViewById(R.id.edit_text_layout);
+                vedit_text_layout.setInputType(InputType.TYPE_CLASS_PHONE);
+                vedit_text_layout.setText(vCitizen_Phone_Number.getText().toString());
+
+                mbuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String number = vedit_text_layout.getText().toString().trim();
+                        vCitizen_Phone_Number.setText(number);
+                        databaseReference = FirebaseDatabase.getInstance().getReference();
+                        databaseReference.child("Citizen").child(Citizen_Id).child("Phone_Number").setValue(number);
+                    }
+                });
+
+                mbuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                mbuilder.setView(mview);
+                AlertDialog dialog =mbuilder.create();
+                dialog.show();
             }
         });
 
@@ -323,7 +391,9 @@ public class Profile extends AppCompatActivity {
                         if(dataSnapshot.exists()){
                             String Profile_Image_Ref = Objects.requireNonNull(dataSnapshot.child("Profile_Image_Url").getValue()).toString();
                             String Citizen_User_Name = Objects.requireNonNull(dataSnapshot.child("User_Name").getValue()).toString();
+                            String Phone_Number = Objects.requireNonNull(dataSnapshot.child("Phone_Number").getValue()).toString();
                             vCitizen_User_Name_below_Image.setText(Citizen_User_Name);
+                            vCitizen_Phone_Number.setText(Phone_Number);
                             if(!Profile_Image_Ref.equals("")){
                                 Picasso.get().load(Profile_Image_Ref).into(vCitizen_Profile_Image);
                             }

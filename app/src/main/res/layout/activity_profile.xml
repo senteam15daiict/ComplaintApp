@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".Profile">
 
     <include
@@ -20,7 +21,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/Citizen_Profile_Image"
@@ -42,21 +42,34 @@
 
             <TextView
                 android:id="@+id/Citizen_User_Name_below_Image"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/Citizen_Profile_Image_Selector"
-                android:layout_centerHorizontal="true"
-                android:paddingTop="0dp"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="10dp"
                 android:text="User_name"
-                android:textSize="20dp" />
+                android:textSize="20sp"
+                android:background="@drawable/bottom_black_line_background"
+                android:drawableEnd="@drawable/ic_post_complaint"/>
 
+            <TextView
+                android:id="@+id/Citizen_Phone_Number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/Citizen_User_Name_below_Image"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="10dp"
+                android:text="Phone Number"
+                android:textSize="20sp"
+                android:background="@drawable/bottom_black_line_background"
+                android:drawableEnd="@drawable/ic_post_complaint"/>
 
             <LinearLayout
                 android:id="@+id/Citizen_Profile_Logout_Delete_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/Citizen_User_Name_below_Image"
-                android:layout_marginTop="10dp"
+                android:layout_below="@+id/Citizen_Phone_Number"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <Button
