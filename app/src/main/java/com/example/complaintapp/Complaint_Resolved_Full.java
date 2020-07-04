@@ -330,6 +330,9 @@ public class Complaint_Resolved_Full extends AppCompatActivity {
                             if(!url.equals("")){
                                 Picasso.get().load(url).into(vComplaint_Resolved_Full_Corporation_Response_Image);
                             }
+                            else{
+                                vComplaint_Resolved_Full_Corporation_Response_Image.setVisibility(View.GONE);
+                            }
                             String text = Objects.requireNonNull(dataSnapshot.child("Response_Text").getValue()).toString();
                             vComplaint_Resolved_Full_Corporation_Response_Description.setText(text);
                             String date = Objects.requireNonNull(dataSnapshot.child("Date").getValue()).toString();

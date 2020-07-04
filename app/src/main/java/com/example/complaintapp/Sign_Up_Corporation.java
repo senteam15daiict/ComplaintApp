@@ -102,9 +102,9 @@ public class Sign_Up_Corporation extends AppCompatActivity {
         vCorporation_Sign_Up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user_name = vCorporation_User_Name.getText().toString();
-                String phone_number = vCorporation_Phone_Number.getText().toString();
-                String email = vCorporation_Email.getText().toString();
+                String user_name = vCorporation_User_Name.getText().toString().trim();
+                String phone_number = vCorporation_Phone_Number.getText().toString().trim();
+                String email = vCorporation_Email.getText().toString().trim();
                 String password = vCorporation_Password.getText().toString();
                 String security_key = vCorporation_Security_Key.getText().toString();
                 final String country = vCorporation_Country.getSelectedItem().toString();
@@ -124,6 +124,16 @@ public class Sign_Up_Corporation extends AppCompatActivity {
 
                 if(TextUtils.isEmpty(user_name)){
                     vCorporation_User_Name.setError("Please Enter User Name");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(password)){
+                    vCorporation_Password.setError("Please Enter Password");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(security_key)){
+                    vCorporation_Security_Key.setError("Please Enter Security Key");
                     return;
                 }
 

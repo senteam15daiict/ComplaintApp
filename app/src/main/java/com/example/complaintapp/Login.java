@@ -37,8 +37,8 @@ import java.util.Objects;
 public class Login extends AppCompatActivity {
 
     int backButtonCount = 0;
-    EditText vEmail,vPassword;
-    TextView vForgot_Password,vCreate_Account,vTo_Open_Corporation_Login;
+    EditText vEmail, vPassword;
+    TextView vForgot_Password, vCreate_Account, vTo_Open_Corporation_Login;
     String User_Id;
     Button vLogin;
     FirebaseAuth fauth;
@@ -67,19 +67,19 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final String email = vEmail.getText().toString().trim();
-                final String password = vPassword.getText().toString().trim();
+                final String password = vPassword.getText().toString();
 
-                if(TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email)) {
                     vEmail.setError("Email is required");
                     return;
                 }
 
-                if(TextUtils.isEmpty(password)){
+                if (TextUtils.isEmpty(password)) {
                     vPassword.setError("Password is required");
                     return;
                 }
 
-                if(password.length() <= 5){
+                if (password.length() <= 5) {
                     vPassword.setError("Password length must be >= 6");
                     return;
                 }
@@ -89,39 +89,42 @@ public class Login extends AppCompatActivity {
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
-                            if(password.equals(Objects.requireNonNull(dataSnapshot1.child("Password").getValue()).toString())){
-                                fauth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+
+                                fauth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if(task.isSuccessful()){
-                                            if(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).isEmailVerified()){
-                                                Toast.makeText(Login.this,"Login Succesfully",Toast.LENGTH_SHORT).show();
-                                                startActivity(new Intent(Login.this,Citizen_home.class));
+                                        if (task.isSuccessful()) {
+                                            if (Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).isEmailVerified()) {
+                                                Toast.makeText(Login.this, "Login Succesfully", Toast.LENGTH_SHORT).show();
+                                                startActivity(new Intent(Login.this, Citizen_home.class));
                                                 finish();
-                                            }
-                                            else{
+                                            } else {
                                                 FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
-                                                        if(task.isSuccessful()){
+                                                        if (task.isSuccessful()) {
                                                             FirebaseAuth.getInstance().signOut();
-                                                            Toast.makeText(Login.this,"Verification Mail Sended Succesfully",Toast.LENGTH_SHORT).show();
-                                                        }
-                                                        else{
-                                                            Toast.makeText(Login.this,"Error! " + Objects.requireNonNull(task.getException()).toString(),Toast.LENGTH_LONG).show();
+                                                            Toast.makeText(Login.this, "Verification Mail Sended Succesfully", Toast.LENGTH_SHORT).show();
+                                                        } else {
+                                                            Toast.makeText(Login.this, "Error! " + Objects.requireNonNull(task.getException()).toString(), Toast.LENGTH_LONG).show();
                                                         }
                                                     }
                                                 });
                                             }
-                                        }
-                                        else{
-                                            Toast.makeText(Login.this,"Error! " + Objects.requireNonNull(task.getException()).toString(),Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(Login.this, "Error! " + Objects.requireNonNull(task.getException()).toString(), Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
+
                             }
+                        } else {
+                            Toast.makeText(Login.this, "Please Enter Valid Email Id", Toast.LENGTH_SHORT).show();
                         }
+
                     }
 
                     @Override
@@ -138,7 +141,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent create_acc_intent = new Intent(Login.this,Sign_Up.class);
+                Intent create_acc_intent = new Intent(Login.this, Sign_Up.class);
                 startActivity(create_acc_intent);
             }
         });
@@ -160,12 +163,12 @@ public class Login extends AppCompatActivity {
                         fauth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(Login.this,"Reset Link Sent to your mail",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, "Reset Link Sent to your mail", Toast.LENGTH_SHORT).show();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(Login.this,"Error! " + e.getMessage(),Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, "Error! " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -185,7 +188,7 @@ public class Login extends AppCompatActivity {
         vCreate_Account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login.this,Sign_Up.class));
+                startActivity(new Intent(Login.this, Sign_Up.class));
                 finish();
             }
         });
@@ -193,27 +196,25 @@ public class Login extends AppCompatActivity {
         vTo_Open_Corporation_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login.this,Login_Corporation.class));
+                startActivity(new Intent(Login.this, Login_Corporation.class));
                 finish();
             }
         });
     }
 
     @Override
-    public void onBackPressed()
-    {
-        if(backButtonCount >= 1)
-        {
+    public void onBackPressed() {
+        if (backButtonCount >= 1) {
             backButtonCount = 0;
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-        }
-        else
-        {
+        } else {
             Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
             backButtonCount++;
         }
-    };
+    }
+
+    ;
 }

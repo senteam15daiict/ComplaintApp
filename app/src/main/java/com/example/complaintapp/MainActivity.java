@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         fauth = FirebaseAuth.getInstance();
         if(fauth.getCurrentUser() == null){
             Toast.makeText(MainActivity.this,"Please First Login",Toast.LENGTH_SHORT).show();
@@ -47,8 +46,27 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                     }
                     else{
-                        startActivity(new Intent(MainActivity.this,Corporation_home.class));
-                        finish();
+                        databaseReference = FirebaseDatabase.getInstance().getReference();
+                        databaseReference.child("Corpoaration").child(uid).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){
+                                    startActivity(new Intent(MainActivity.this,Corporation_home.class));
+                                    finish();
+                                }
+                                else{
+                                    fauth.signOut();
+                                    startActivity(new Intent(MainActivity.this,Login.class));
+                                    finish();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
                     }
                 }
 

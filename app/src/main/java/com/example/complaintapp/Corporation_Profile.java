@@ -15,6 +15,7 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -150,6 +151,11 @@ public class Corporation_Profile extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String name = vedit_text_layout.getText().toString().trim();
+                        if(TextUtils.isEmpty(name)){
+                            Toast.makeText(Corporation_Profile.this,"Enter User Name",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            return;
+                        }
                         vCorporation_User_Name_below_Image.setText(name);
                         databaseReference = FirebaseDatabase.getInstance().getReference();
                         databaseReference.child("Corporation").child(Corporation_Id).child("User_name").setValue(name);
@@ -183,10 +189,20 @@ public class Corporation_Profile extends AppCompatActivity {
                 mbuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String name = vedit_text_layout.getText().toString().trim();
-                        vCorporation_Phone_Number.setText(name);
+                        String number = vedit_text_layout.getText().toString().trim();
+                        if(TextUtils.isEmpty(number)){
+                            Toast.makeText(Corporation_Profile.this,"Please enter number",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            return;
+                        }
+                        if(number.length() < 10){
+                            Toast.makeText(Corporation_Profile.this,"10 digit's number is required",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            return;
+                        }
+                        vCorporation_Phone_Number.setText(number);
                         databaseReference = FirebaseDatabase.getInstance().getReference();
-                        databaseReference.child("Corporation").child(Corporation_Id).child("User_name").setValue(name);
+                        databaseReference.child("Corporation").child(Corporation_Id).child("User_name").setValue(number);
                     }
                 });
 
@@ -218,7 +234,6 @@ public class Corporation_Profile extends AppCompatActivity {
                         progressDialog.setCanceledOnTouchOutside(false);
                         progressDialog.show();
 
-                        //Log.d("Corporation_Id = ",Corporation_Id);
                         deleteComplaints();
 
                         databaseReference = FirebaseDatabase.getInstance().getReference().child("Corporation").child(Corporation_Id);

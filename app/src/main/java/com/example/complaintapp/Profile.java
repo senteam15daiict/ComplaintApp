@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -134,6 +135,11 @@ public class Profile extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String name = vedit_text_layout.getText().toString().trim();
+                        if(TextUtils.isEmpty(name)){
+                            Toast.makeText(Profile.this,"Enter User Name",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            return;
+                        }
                         vCitizen_User_Name_below_Image.setText(name);
                         databaseReference = FirebaseDatabase.getInstance().getReference();
                         databaseReference.child("Citizen").child(Citizen_Id).child("User_Name").setValue(name);
@@ -167,6 +173,16 @@ public class Profile extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String number = vedit_text_layout.getText().toString().trim();
+                        if(TextUtils.isEmpty(number)){
+                            Toast.makeText(Profile.this,"Please enter number",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            return;
+                        }
+                        if(number.length() < 10){
+                            Toast.makeText(Profile.this,"10 digit's number is required",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            return;
+                        }
                         vCitizen_Phone_Number.setText(number);
                         databaseReference = FirebaseDatabase.getInstance().getReference();
                         databaseReference.child("Citizen").child(Citizen_Id).child("Phone_Number").setValue(number);

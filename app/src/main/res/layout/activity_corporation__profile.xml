@@ -148,6 +148,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/Corporation_Not_Available_Complaint_Types"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
                 <Button

@@ -71,14 +71,8 @@ public class Login_Corporation extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.exists()){
                             for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                //Corporation c1 = new Corporation();
-
-                                String c1Password = Objects.requireNonNull(snapshot.child("Password").getValue()).toString();
                                 String c1Security_Key = Objects.requireNonNull(snapshot.child("Security_Key").getValue()).toString();
-                                Log.d(c1Password,c1Security_Key);
-                                //Toast.makeText(Login_Corporation.this,  c1Password + " security key = " + c1Security_Key, Toast.LENGTH_LONG).show();
-                                if (c1Password.equals(password) && c1Security_Key.equals(security_key)) {
-
+                                if (c1Security_Key.equals(security_key)) {
                                     fauth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -101,16 +95,18 @@ public class Login_Corporation extends AppCompatActivity {
                                                         }
                                                     });
                                                 }
-
                                             } else {
                                                 Toast.makeText(Login_Corporation.this, "Error! " + task.getException(), Toast.LENGTH_LONG).show();
                                             }
                                         }
                                     });
                                 } else {
-                                    Toast.makeText(Login_Corporation.this,"Please Enter Valid Password and Security Key",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(Login_Corporation.this,"Please Enter Valid Security Key",Toast.LENGTH_LONG).show();
                                 }
                             }
+                        }
+                        else{
+                            Toast.makeText(Login_Corporation.this,"Please Enter Valid Email Id",Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -143,7 +139,6 @@ public class Login_Corporation extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String email = resetemail.getText().toString();
-
                         fauth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
